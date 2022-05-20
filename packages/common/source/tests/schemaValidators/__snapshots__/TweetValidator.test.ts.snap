@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TweetValidator should validate unsuccessfully 1`] = `[ValidationError: type must be one of the following values: text, link, retweet, reply]`;
+
+exports[`TweetValidator should validate unsuccessfully 2`] = `[ValidationError: linkUrl must be a valid URL]`;
