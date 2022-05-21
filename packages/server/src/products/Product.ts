@@ -1,9 +1,9 @@
 import mongoose, { Schema } from 'mongoose';
-import UserType from '@customTypes/UserType';
+import ProductType from '@customTypes/ProductType';
 import duplicationErrorHandler from '@customMiddleware/duplicationErrorHandler';
 import uniqueValidator from 'mongoose-unique-validator';
 
-const UserSchema: Schema<UserType> = new Schema<UserType>(
+const ProductSchema: Schema<ProductType> = new Schema<ProductType>(
   {
     email: { required: true, type: String, minlength: 3, unique: true },
     password: { required: true, type: String, minlength: 12 },
@@ -18,11 +18,11 @@ const UserSchema: Schema<UserType> = new Schema<UserType>(
 );
 
 //@ts-ignore
-UserSchema.plugin(uniqueValidator);
+ProductSchema.plugin(uniqueValidator);
 
 // @ts-ignore
-UserSchema.post('save', duplicationErrorHandler);
+ProductSchema.post('save', duplicationErrorHandler);
 // @ts-ignore
-UserSchema.post('update', duplicationErrorHandler);
+ProductSchema.post('update', duplicationErrorHandler);
 
-export default mongoose.model<UserType>('User', UserSchema);
+export default mongoose.model<ProductType>('Product', ProductSchema);

@@ -1,4 +1,4 @@
-# Full Stack Ecomerce
+# Full Stack E-commerce
 
 ## Getting Started
 

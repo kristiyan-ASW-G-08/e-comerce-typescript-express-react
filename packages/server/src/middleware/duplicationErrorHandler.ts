@@ -1,12 +1,12 @@
-import { Response } from 'express';
-
+import { NextFunction } from 'express';
 import { Document } from 'mongoose';
 import RESTError, { errors } from '@utilities/RESTError';
-import ValidationError from '@eco/common/source/types/ValidationError';
+import ValidationError from '@twtr/common/source/types/ValidationError';
 
 const duplicationErrorHandler = (
   duplicationErrors: any,
-  res: Response,
+  doc: Document,
+  next: NextFunction,
 ): void => {
   if (duplicationErrors.errors) {
     const validationErrors: ValidationError[] = Object.values(
@@ -18,8 +18,10 @@ const duplicationErrorHandler = (
         message: `${value} is already taken`,
       }),
     );
-    const { status } = errors.Conflict;
-    res.status(status).json({ data: { validationErrors } });
+    const { status, message } = errors.Conflict;
+    next(new RESTError(status, message, validationErrors));
+  } else {
+    next(duplicationErrors);
   }
 };
 export default duplicationErrorHandler;

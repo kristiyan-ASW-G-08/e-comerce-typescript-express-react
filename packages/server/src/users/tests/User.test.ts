@@ -61,7 +61,7 @@ describe('User', (): void => {
     expect(user.password).toBe(password);
     // email confirmation is disabled
     expect(user.isConfirmed).toBeTruthy();
-    expect(user.date).toBeDefined();
     expect(user._id).toBeDefined();
+    expect(user.isAdmin).toBeFalsy();
   });
 });
