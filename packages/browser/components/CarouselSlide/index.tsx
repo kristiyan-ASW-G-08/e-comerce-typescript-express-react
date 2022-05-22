@@ -12,7 +12,7 @@ interface CarouselSlideProps {
   setCurrentSlide: Dispatch<SetStateAction<number>>;
   currentSlide: number;
   imageSrc: any;
-  color: string;
+  color: 'green' | 'red' | 'blue';
 }
 const CarouselSlide: FC<CarouselSlideProps> = ({
   heading,
@@ -23,6 +23,11 @@ const CarouselSlide: FC<CarouselSlideProps> = ({
   imageSrc,
   color,
 }) => {
+  const hoverClasses = {
+    red: 'hover:bg-red-900',
+    green: 'hover:bg-green-900',
+    blue: 'hover:bg-blue-900',
+  };
   return (
     <div
       key={color}
@@ -36,7 +41,9 @@ const CarouselSlide: FC<CarouselSlideProps> = ({
           <p className="pb-10 font-bold md:text-lg text-neutral-50">
             {content}
           </p>
-          <button className="text-sm rounded-full border-2 py-2 px-7 text-neutral-50 font-bold hover:bg-blue-900">
+          <button
+            className={`text-sm rounded-full border-2 py-2 px-7 text-neutral-50 font-bold ${hoverClasses[color]}`}
+          >
             {buttonText}
           </button>
         </div>

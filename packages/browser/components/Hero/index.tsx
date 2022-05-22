@@ -7,9 +7,7 @@ import heroCard3Image from 'assets/controller-removebg-preview.png';
 const Hero: FC = () => (
   <section className={`bg-neutral-100 pt-5 flex flex-col`}>
     <Carousel />
-    <div
-      className="flex h-72 sm:h-44 h-full	w-full flex-col lg:flex-row  justify-between mt-3 mb-3"
-    >
+    <div className="flex h-full sm:h-full lg:h-44 	w-full flex-col lg:flex-row  justify-between mt-3 mb-3">
       <HeroCard
         heading="Browse Our Promotions"
         imageSrc={heroCard1Image}

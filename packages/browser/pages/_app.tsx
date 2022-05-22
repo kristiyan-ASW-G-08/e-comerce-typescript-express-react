@@ -4,11 +4,13 @@ import { Provider } from 'react-redux';
 import Navbar from '@/components/Navbar';
 import '../importFontAwesome';
 import Store from '../store/';
+import Footer from '@/components/Footer';
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <Provider store={Store}>
       <Navbar />
       <Component {...pageProps} />
+      <Footer/>
     </Provider>
   );
 }

@@ -24,9 +24,9 @@ const NavLink: FC<NavLinkProps> = ({
         <a
           onClick={fn}
           className={[
+            styles,
             router.pathname === href ? 'text-blue-400 ' : '',
             ,
-            styles,
           ].join(' ')}
         >
           {text}
