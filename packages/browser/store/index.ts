@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux';
 import { configureStore } from '@reduxjs/toolkit';
 import thunk from 'redux-thunk';
-
-const reducer = combineReducers({});
+import { authReducer } from '../reducers/AuthReducers';
+const reducer = combineReducers({
+  auth: authReducer,
+});
 
 const preloadedState = {};
 

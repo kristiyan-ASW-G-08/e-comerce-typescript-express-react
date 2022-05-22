@@ -1,5 +1,9 @@
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faBars } from '@fortawesome/free-solid-svg-icons';
+import {
+  faBars,
+  faSearch,
+  faDotCircle,
+} from '@fortawesome/free-solid-svg-icons';
 import {
   fab,
   faTwitter,

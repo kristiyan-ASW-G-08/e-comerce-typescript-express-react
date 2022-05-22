@@ -1,12 +1,13 @@
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import { Provider } from 'react-redux';
-
+import Navbar from '@/components/Navbar';
 import '../importFontAwesome';
-import Store from '../store/store';
+import Store from '../store/';
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <Provider store={Store}>
+      <Navbar />
       <Component {...pageProps} />
     </Provider>
   );

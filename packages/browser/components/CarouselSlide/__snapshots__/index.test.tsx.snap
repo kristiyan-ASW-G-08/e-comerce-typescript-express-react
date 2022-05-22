@@ -1,0 +1,108 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CarouselSlide render  1`] = `
+<div>
+  <div
+    class="undefined animate-slide mx-5 h-60 md:h-96	w-full rounded-lg flex flex-col  justify-center  "
+  >
+    <div
+      class="flex justify-center"
+    >
+      <div
+        class="m-auto p-5"
+      >
+        <h1
+          class="pb-3 font-bold text-2xl md:text-5xl text-neutral-50"
+        >
+          Browse Our Promotions
+        </h1>
+        <p
+          class="pb-10 font-bold md:text-lg text-neutral-50"
+        >
+          Wireless Connection With TV, Computer, Laptop..
+        </p>
+        <button
+          class="text-sm rounded-full border-2 py-2 px-7 text-neutral-50 font-bold hover:bg-blue-900"
+        >
+          someText
+        </button>
+      </div>
+      <div
+        class="md:h-72 md:w-72 h-48 w-48 relative m-auto"
+      >
+         
+      </div>
+    </div>
+    <div
+      class="flex justify-center mb-5"
+    >
+      <button
+        class="px-3 text-neutral-50"
+        data-testid="button-0"
+      >
+         
+        <svg
+          aria-hidden="true"
+          class="svg-inline--fa fa-circle "
+          data-icon="circle"
+          data-prefix="fas"
+          focusable="false"
+          height="12"
+          role="img"
+          viewBox="0 0 512 512"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z"
+            fill="currentColor"
+          />
+        </svg>
+      </button>
+      <button
+        class="px-3 text-neutral-50"
+        data-testid="button-1"
+      >
+         
+        <svg
+          aria-hidden="true"
+          class="svg-inline--fa fa-circle-dot "
+          data-icon="circle-dot"
+          data-prefix="fas"
+          focusable="false"
+          height="12"
+          role="img"
+          viewBox="0 0 512 512"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256zM256 352C309 352 352 309 352 256C352 202.1 309 160 256 160C202.1 160 160 202.1 160 256C160 309 202.1 352 256 352z"
+            fill="currentColor"
+          />
+        </svg>
+      </button>
+      <button
+        class="px-3 text-neutral-50"
+        data-testid="button-2"
+      >
+         
+        <svg
+          aria-hidden="true"
+          class="svg-inline--fa fa-circle-dot "
+          data-icon="circle-dot"
+          data-prefix="fas"
+          focusable="false"
+          height="12"
+          role="img"
+          viewBox="0 0 512 512"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256zM256 352C309 352 352 309 352 256C352 202.1 309 160 256 160C202.1 160 160 202.1 160 256C160 309 202.1 352 256 352z"
+            fill="currentColor"
+          />
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>
+`;
