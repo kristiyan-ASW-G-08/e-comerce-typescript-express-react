@@ -14,7 +14,7 @@ const HeroCard: FC<HeroCardProps> = ({
   heading,
 }) => (
   <div
-    className={`${styles[cardNum]} animate-fade h-44 mb-4 rounded flex flex-row mx-4 sm:mx-4 w-full lg:w-1/3 p-3`}
+    className={`${styles[cardNum]} animate-fade hover:scale-105 transition  ease-in-out delay-150 duration-400 h-44 mb-4 rounded flex flex-row mx-4 sm:mx-4 w-full lg:w-1/3 p-3`}
   >
     <div className=" flex flex-col m-auto">
       <h1 className="text-2xl  text-neutral-50">{heading}</h1>

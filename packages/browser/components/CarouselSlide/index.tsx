@@ -24,9 +24,9 @@ const CarouselSlide: FC<CarouselSlideProps> = ({
   color,
 }) => {
   const hoverClasses = {
-    red: 'hover:bg-red-900',
-    green: 'hover:bg-green-900',
-    blue: 'hover:bg-blue-900',
+    red: 'hover:bg-red-700',
+    green: 'hover:bg-green-700',
+    blue: 'hover:bg-blue-700',
   };
   return (
     <div

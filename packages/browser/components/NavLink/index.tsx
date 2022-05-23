@@ -14,7 +14,7 @@ const NavLink: FC<NavLinkProps> = ({
   text,
   fn = () => {},
   isMobile = false,
-  styles = '  text-neutral-50 hover:text-blue-400 font-bold',
+  styles = '  text-neutral-50 hover:text-red-400 font-bold',
 }) => {
   const router = useRouter();
 
@@ -25,7 +25,7 @@ const NavLink: FC<NavLinkProps> = ({
           onClick={fn}
           className={[
             styles,
-            router.pathname === href ? 'text-blue-400 ' : '',
+            router.pathname === href ? 'text-red-400 ' : '',
             ,
           ].join(' ')}
         >
