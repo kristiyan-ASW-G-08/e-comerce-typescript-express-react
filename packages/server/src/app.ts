@@ -10,7 +10,11 @@ const app: Application = express();
 app.use(helmet());
 app.use(compression());
 app.use(bodyParser.json());
-
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+  }),
+);
 app.use((req: Request, res: Response, next: NextFunction): void => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader(
@@ -25,7 +29,8 @@ app.use('/images', express.static('./images'));
 
 app.use(userRoutes);
 
-// populateDB();
+//@ts-ignore
+
 app.use(errorHandler);
 
 export default app;

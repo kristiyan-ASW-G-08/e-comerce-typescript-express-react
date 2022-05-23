@@ -12,6 +12,7 @@ const getResource = async <T extends Document>(
   select: string = '',
   validationErrors: ValidationError[] | undefined = undefined,
 ): Promise<T> => {
+  //@ts-ignore
   const resource = await model.findOne({ [name]: value }).select(select);
   if (!resource) {
     const { status, message } = errors.NotFound;

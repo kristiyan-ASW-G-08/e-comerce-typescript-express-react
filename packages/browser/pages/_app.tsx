@@ -5,12 +5,14 @@ import Navbar from '@/components/Navbar';
 import '../importFontAwesome';
 import Store from '../store/';
 import Footer from '@/components/Footer';
+import Notification from '@/components/Notification';
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <Provider store={Store}>
+     
       <Navbar />
       <Component {...pageProps} />
-      <Footer/>
+      <Footer />
     </Provider>
   );
 }

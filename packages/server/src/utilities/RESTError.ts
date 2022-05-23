@@ -40,18 +40,18 @@ export default class RESTError extends Error {
 
   public message: string;
 
-  public data?: ValidationError[] | string;
+  public validationErrors?: ValidationError[];
 
   public constructor(
     status: number,
     message: string,
-    data?: ValidationError[] | string,
+    validationErrors?: ValidationError[],
   ) {
     super();
     Object.setPrototypeOf(this, RESTError.prototype);
     this.status = status;
     this.message = message;
-    this.data = data;
+    this.validationErrors = validationErrors;
   }
 }
 

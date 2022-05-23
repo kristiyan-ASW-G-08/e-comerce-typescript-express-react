@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { ValidationError } from 'yup';
 import Validator from '@customTypes/Validator';
 import CustomValidationError from '@eco/common/source/types/ValidationError';
-import { errors } from '@utilities/RESTError';
+import RESTError, { errors } from '@utilities/RESTError';
 
 const validationHandler = (
   validators: Validator[],
@@ -14,6 +14,7 @@ const validationHandler = (
   ): Promise<void> => {
     try {
       for await (const { schema, target } of validators) {
+        console.log(target, req[target]);
         const validationTarget = req[target];
         await schema.validate(validationTarget, {
           abortEarly: false,
@@ -28,8 +29,8 @@ const validationHandler = (
           message,
         }),
       );
-      const { status } = errors.BadRequest;
-      res.status(status).json({ data: { validationErrors } });
+      const { status, message } = errors.BadRequest;
+      next(new RESTError(status, message, validationErrors));
     }
   };
 };

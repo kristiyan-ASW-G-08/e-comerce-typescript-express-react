@@ -22,18 +22,19 @@ import ValidationError from '@eco/common/source/types/ValidationError';
 import duplicationErrorHandler from '@src/middleware/duplicationErrorHandler';
 
 export const signUp = async (
-  { body: { username, handle, email, password } }: Request,
+  { body: { email, password } }: Request,
   res: Response,
   next: NextFunction,
 ): Promise<void> => {
   try {
+    console.log(email, password);
+
     await new User({
       email,
       password: await bcrypt.hash(password, 12),
       // eslint-disable-next-line consistent-return
-    })
-      .save()
-      .catch(err => duplicationErrorHandler(err, res));
+    }).save();
+
     res.sendStatus(201);
   } catch (err) {
     passErrorToNext(err, next);
@@ -52,12 +53,14 @@ export const logIn = async (
     if (!passwordMatch) {
       const { status } = errors.Unauthorized;
       res.status(status).send({
-        data: [
-          {
-            path: 'password',
-            message: 'Wrong password. Try again',
-          },
-        ],
+        data: {
+          validationErrors: [
+            {
+              path: 'password',
+              message: 'Wrong password. Try again',
+            },
+          ],
+        },
       });
     }
     hasConfirmedEmail(user.isConfirmed);
@@ -68,7 +71,7 @@ export const logIn = async (
       SECRET,
       { expiresIn: '1h' },
     );
-    const { date, _id } = user;
+    const { date, _id, isAdmin } = user;
     res.status(200).json({
       data: {
         token,
@@ -76,6 +79,7 @@ export const logIn = async (
           email,
           date,
           _id,
+          isAdmin,
         },
       },
     });

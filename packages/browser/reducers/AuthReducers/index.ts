@@ -1,5 +1,5 @@
 export interface AuthState {
-  userId: string;
+  _id: string;
   token: string;
   email: string;
   isAdmin: boolean;
@@ -8,7 +8,7 @@ export interface AuthState {
 const initialAuthState = {
   token: '',
   email: '',
-  userId: '',
+  _id: '',
   isAdmin: false,
 };
 
@@ -16,15 +16,18 @@ export interface Action {
   type: 'LOGIN' | 'LOGOUT';
   payload?: AuthState;
 }
-export const authReducer = (state = initialAuthState, action: Action) => {
-  switch (action.type) {
+export const authReducer = (
+  state = initialAuthState,
+  { type, payload }: Action,
+) => {
+  switch (type) {
     case 'LOGIN':
-      return action.payload;
+      return payload;
 
     case 'LOGOUT':
       return initialAuthState;
 
     default:
-      return initialAuthState;
+      return state;
   }
 };

@@ -1,7 +1,7 @@
 import { NextFunction } from 'express';
 import { Document } from 'mongoose';
 import RESTError, { errors } from '@utilities/RESTError';
-import ValidationError from '@twtr/common/source/types/ValidationError';
+import ValidationError from '@eco/common/source/types/ValidationError';
 
 const duplicationErrorHandler = (
   duplicationErrors: any,

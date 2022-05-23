@@ -2,14 +2,21 @@ import { faBars, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FC, useRef, useState } from 'react';
 import Logo from '../Logo';
+import Notification from '../Notification';
 import Search from 'assets/search.svg';
 import Bars from 'assets/bars-solid.svg';
 import NavLink from '../NavLink';
+import { useDispatch, useSelector } from 'react-redux';
+import { logoutAction } from '@/actions/authActions';
 
 const Navbar: FC = () => {
   const [isActive, setIsActive] = useState<boolean>(false);
   const [isActiveCategories, setIsActiveCategories] = useState<boolean>(false);
   const [focused, setFocused] = useState(false);
+  const dispatch = useDispatch();
+  const authState = useSelector((state: any) => state.auth);
+  const notificationState = useSelector((state: any) => state.notification);
+  console.log(authState, 'navbar');
   const onFocus = () => setFocused(true);
   const onBlur = () => setFocused(false);
 
@@ -21,6 +28,14 @@ const Navbar: FC = () => {
   };
   return (
     <>
+      {notificationState?.isActive ? (
+        <Notification
+          content={notificationState.content}
+          type={notificationState.type}
+        />
+      ) : (
+        ''
+      )}
       <nav className=" mx-auto p-7 w-screen border-b-4 bg-slate-700 border-red-400 flex flex-col justify-center ">
         <form className="mb-6 flex justify-center align-center ">
           <p
@@ -89,42 +104,59 @@ const Navbar: FC = () => {
                     'w-full text-neutral-50 animate-fade hover:text-red-400'
                   }
                 />
-                <NavLink
-                  fn={setActiveCategories}
-                  href="/deals"
-                  text="Login"
-                  styles={
-                    'w-full text-neutral-50 animate-fade hover:text-red-400'
-                  }
-                />
-                <NavLink
-                  fn={setActiveCategories}
-                  href="/deals"
-                  text="Sign Up"
-                  styles={
-                    'w-full text-neutral-50 animate-fade hover:text-red-400 '
-                  }
-                />
+
+                <>
+                  <NavLink
+                    fn={setActiveCategories}
+                    href="/deals"
+                    text="Login"
+                    styles={
+                      'w-full text-neutral-50 animate-fade hover:text-red-400'
+                    }
+                  />
+                  <NavLink
+                    fn={setActiveCategories}
+                    href="/deals"
+                    text="Sign Up"
+                    styles={
+                      'w-full text-neutral-50 animate-fade hover:text-red-400 '
+                    }
+                  />
+                </>
               </ul>
             </div>
             <NavLink href="/products" text="Products" />
             <NavLink href="/deals" text="Deals" />
             <NavLink href="/deals" text="About Us" />
             <NavLink href="/deals" text="Contacts" />
-            <NavLink
-              href="/deals"
-              text="Login"
-              styles={
-                'bg-neutral-50 text-red-400 px-4 py-1 rounded-full hover:text-red-400 font-bold hover:bg-slate-700'
-              }
-            />
-            <NavLink
-              href="/deals"
-              text="Sign Up"
-              styles={
-                'bg-red-400 text-neutral-50 px-4 py-1 rounded-full hover:text-red-400 font-bold hover:bg-slate-700'
-              }
-            />
+            {authState.token ? (
+              <NavLink
+                // @ts-ignore
+                fn={() => dispatch(logoutAction())}
+                href="/"
+                text="Log Out"
+                styles={
+                  'text-neutral-50 bg-red-400 px-4 py-1 rounded hover:text-red-400 font-bold hover:bg-slate-700'
+                }
+              />
+            ) : (
+              <>
+                <NavLink
+                  href="/login"
+                  text="Login"
+                  styles={
+                    'bg-neutral-50 text-red-400 px-4 py-1 rounded-full hover:text-red-400 font-bold hover:bg-slate-700'
+                  }
+                />
+                <NavLink
+                  href="/sign-up"
+                  text="Sign Up"
+                  styles={
+                    'bg-red-400 text-neutral-50 px-4 py-1 rounded-full hover:text-red-400 font-bold hover:bg-slate-700'
+                  }
+                />
+              </>
+            )}
           </ul>
 
           <button
@@ -165,13 +197,25 @@ const Navbar: FC = () => {
             text="Contacts"
             isMobile
           />
-          <NavLink fn={setMobileNavState} href="/deals" text="Login" isMobile />
-          <NavLink
-            fn={setMobileNavState}
-            href="/deals"
-            text="Sign Up"
-            isMobile
-          />
+
+          {authState.token ? (
+            ''
+          ) : (
+            <>
+              <NavLink
+                fn={setMobileNavState}
+                href="/login"
+                text="Login"
+                isMobile
+              />
+              <NavLink
+                fn={setMobileNavState}
+                href="/sign-up"
+                text="Sign Up"
+                isMobile
+              />
+            </>
+          )}
         </ul>
       </nav>
     </>

@@ -5,18 +5,18 @@ const UserValidator = yup.object().shape({
     .string()
     .trim()
     .email()
-    .required(),
+    .required('Email is Required'),
   password: yup
     .string()
     .trim()
     .min(12)
-    .required(),
+    .required('Password is Required'),
   confirmPassword: yup
     .string()
     .trim()
     .min(12)
     .oneOf([yup.ref('password')], "Passwords don't match")
-    .required(),
+    .required('Repeat your password'),
 });
 
 export default UserValidator;
