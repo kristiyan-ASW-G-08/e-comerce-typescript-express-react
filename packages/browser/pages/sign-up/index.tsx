@@ -17,11 +17,11 @@ export const SignUpPage: FC = () => {
     { setErrors }: FormikHelpers<FormValues>,
   ): Promise<any> => {
     try {
-      const responseData = await postRequest('users', formValues);
-      if (responseData.data.validationErrors) {
-        setErrors(
-          transformValidationErrors(responseData.data.validationErrors),
-        );
+      const { data } = await postRequest('users', formValues);
+      console.log(data.validationErrors, 'Daaaaaaaaaaaaata');
+      if (data.validationErrors) {
+        console.log('SET Errors');
+        setErrors(transformValidationErrors(data.validationErrors));
       } else {
         router.push('/');
       }
@@ -56,7 +56,7 @@ export const SignUpPage: FC = () => {
                 className="bg-red-400 hover:bg-red-700 text-neutral-50 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                 type="submit"
               >
-                Sign In
+                Sign Up
               </button>
               <button
                 type="reset"

@@ -5,9 +5,12 @@ export const logoutAction = () => (dispatch: (action: Action) => void) => {
 
 export const loginAction =
   (payload: AuthState) => (dispatch: (action: Action) => void) => {
-
     dispatch({
       type: 'LOGIN',
       payload,
     });
   };
+
+export default {
+  loginAction,
+};

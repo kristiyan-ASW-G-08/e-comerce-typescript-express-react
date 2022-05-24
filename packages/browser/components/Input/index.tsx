@@ -23,6 +23,7 @@ export const Input: FC<InputProps> = ({
       component={component}
     />
     <ErrorMessage
+      data-testid={`${name}-label`}
       className="text-red-400 text-xs italic"
       component="label"
       name={name}

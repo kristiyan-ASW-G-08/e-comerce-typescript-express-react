@@ -11,7 +11,6 @@ import { setAction, removeAction } from '@/actions/notificationActions';
 interface FormValues {
   email: string;
   password: string;
-  confirmPassword: string;
 }
 export const LoginPage: FC = () => {
   const dispatch = useDispatch();
@@ -52,7 +51,6 @@ export const LoginPage: FC = () => {
       initialValues={{
         email: '',
         password: '',
-        confirmPassword: '',
       }}
       onSubmit={submitHandler}
     >
