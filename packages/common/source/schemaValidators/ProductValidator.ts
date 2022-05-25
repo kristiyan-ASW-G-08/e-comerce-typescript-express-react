@@ -1,12 +1,29 @@
-import imageFileTypes from 'source/fileTypes/imageFileTypes';
+import imageFileTypes from '../fileTypes/imageFileTypes';
 import * as yup from 'yup';
-
+export const categories = [
+  'Phones & Tablets',
+  'Laptops & Computers',
+  'TV',
+  'Audio',
+  'Peripherals',
+];
 const Product = yup.object().shape({
   name: yup
     .string()
     .trim()
     .required(),
-  price: yup.number().required(),
+  brand: yup
+    .string()
+    .trim()
+    .required(),
+  price: yup
+    .number()
+    .positive()
+    .required(),
+  stock: yup
+    .number()
+    .positive()
+    .required(),
   description: yup
     .string()
     .trim()
@@ -14,46 +31,19 @@ const Product = yup.object().shape({
   category: yup
     .string()
     .trim()
-    .oneOf([
-      'Phones & Tablets',
-      'Laptops & Computers',
-      'TV',
-      'Audio',
-      'Peripherals',
-    ])
+    .oneOf(categories)
     .required(),
-  images: yup
+  specifications: yup
     .array()
-    .required()
-    .min(3, 'Add More Images. Minimum Three')
-    .max(5, 'Remove Some Images. Maximum Five')
+    .required('Specifications are Required')
+    .min(5, 'Add at least 5 specifications')
     .of(
-      yup
-        .mixed()
-        .required('Cover is required!')
-        .test(
-          'fileType',
-          'Upload an Image. Current file type is not supported',
-          value => {
-            if (value && value.type) {
-              return imageFileTypes.includes(value.type);
-            } else if (value && value.file) {
-              return imageFileTypes.includes(value.file.mimetype);
-            } else if (value && value.then) {
-              //@ts-ignore
-              value.then(({ file }) => {
-                return imageFileTypes.includes(file.mimetype);
-              });
-            }
-            return false;
-          },
-        ),
+      yup.object().shape({
+        name: yup.string().required('Specification Name is required'),
+        description: yup
+          .string()
+          .required('Specification Description is required'),
+      }),
     ),
-  specifications: yup.array().of(
-    yup.object().shape({
-      path: yup.string().required(),
-      value: yup.string().required(),
-    }),
-  ),
 });
 export default Product;

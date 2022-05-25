@@ -18,7 +18,6 @@ export const notificationReducer = (
   state = initialNotificationState,
   { type, payload }: Action,
 ) => {
-  console.log(type);
   switch (type) {
     case 'SET':
       return payload;

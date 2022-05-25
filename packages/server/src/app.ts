@@ -4,6 +4,7 @@ import bodyParser from 'body-parser';
 import helmet from 'helmet';
 import compression from 'compression';
 import userRoutes from '@users/routes';
+import productRoutes from './products/routes';
 import errorHandler from '@customMiddleware/errorHandler';
 const app: Application = express();
 
@@ -28,6 +29,7 @@ app.use((req: Request, res: Response, next: NextFunction): void => {
 app.use('/images', express.static('./images'));
 
 app.use(userRoutes);
+app.use(productRoutes);
 
 //@ts-ignore
 

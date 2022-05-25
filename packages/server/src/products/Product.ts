@@ -1,28 +1,30 @@
 import mongoose, { Schema } from 'mongoose';
 import ProductType from '@customTypes/ProductType';
-import duplicationErrorHandler from '@customMiddleware/duplicationErrorHandler';
-import uniqueValidator from 'mongoose-unique-validator';
 
 const ProductSchema: Schema<ProductType> = new Schema<ProductType>(
   {
-    email: { required: true, type: String, minlength: 3, unique: true },
-    password: { required: true, type: String, minlength: 12 },
-    isConfirmed: { required: true, type: Boolean, default: true },
-    isAdmin: {
-      type: Boolean,
-      default: false,
-      required: true,
-    },
+    name: { required: true, type: String },
+    description: { required: true, type: String },
+    category: { required: true, type: String },
+    price: { required: true, type: Number },
+    stock: { required: true, type: Number, default: 0 },
+    images: [
+      {
+        type: String,
+      },
+    ],
+    specifications: [
+      {
+        name: { required: true, type: String },
+        description: { required: true, type: String },
+      },
+    ],
+    numReviews: { required: true, type: Number, default: 0 },
+    rating: { required: true, type: Number, default: 0 },
   },
   { timestamps: true },
 );
 
 //@ts-ignore
-ProductSchema.plugin(uniqueValidator);
-
-// @ts-ignore
-ProductSchema.post('save', duplicationErrorHandler);
-// @ts-ignore
-ProductSchema.post('update', duplicationErrorHandler);
 
 export default mongoose.model<ProductType>('Product', ProductSchema);

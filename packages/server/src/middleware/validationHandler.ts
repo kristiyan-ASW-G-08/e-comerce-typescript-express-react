@@ -14,7 +14,6 @@ const validationHandler = (
   ): Promise<void> => {
     try {
       for await (const { schema, target } of validators) {
-        console.log(target, req[target]);
         const validationTarget = req[target];
         await schema.validate(validationTarget, {
           abortEarly: false,

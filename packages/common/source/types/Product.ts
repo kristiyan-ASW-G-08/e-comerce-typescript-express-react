@@ -18,5 +18,5 @@ export default interface Product {
   rating: number;
   numReviews: number;
   price: number;
-  inStock: number;
+  stock: number;
 }

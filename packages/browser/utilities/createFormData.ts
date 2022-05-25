@@ -1,10 +1,8 @@
 const createFormData = (formValues: { [key: string]: any }): FormData => {
-  const formData = new FormData();
-  Object.entries(formValues).forEach(([key, value]) => {
-    formData.append(key, value);
-  });
-
-  return formData;
+  return Object.entries(formValues).reduce((acc: FormData, [key, value]) => {
+    acc.append(key, value);
+    return acc;
+  }, new FormData());
 };
 
 export default createFormData;

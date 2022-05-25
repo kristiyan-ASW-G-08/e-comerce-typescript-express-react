@@ -7,7 +7,8 @@
       "@customTypes/*": ["src/types/*"],
       "@utilities/*": ["src/utilities/*"],
       "@customMiddleware/*": ["src/middleware/*"],
-      "@users/*": ["src/users/*"]
+      "@users/*": ["src/users/*"],
+      "@products/*": ["src/products/*"]
     },
     "target": "es6",
     "lib": ["esnext"],

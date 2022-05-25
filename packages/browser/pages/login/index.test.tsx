@@ -8,10 +8,10 @@ import postRequest from '@/utilities/postRequest';
 import transformValidationErrors from '@/utilities/transformValidationErrors';
 import createMockRouter from '../../testUtilities/createMockRouter';
 import { Provider } from 'react-redux';
-import AuthActions from '@/actions/authActions';
+import AuthActions, { loginAction } from '@/actions/authActions';
 import Store from '@/store/index';
-jest.mock('utilities/postRequest');
-jest.mock('actions/AuthAction/index');
+jest.mock('@/utilities/postRequest');
+jest.mock('@/actions/AuthActions/index');
 
 const postRequestMock = postRequest as jest.MockedFunction<typeof postRequest>;
 transformValidationErrors as jest.MockedFunction<
@@ -24,6 +24,7 @@ describe('LoginPage', () => {
   afterAll(() => jest.clearAllMocks());
   it('it renders', async () => {
     // expect.assertions(8);
+
     const password = 'passwordpassword';
     const emailValue = 'testmail@test.test';
     const credentials = [
@@ -36,6 +37,18 @@ describe('LoginPage', () => {
         placeholder: 'Password',
       },
     ];
+    postRequestMock.mockImplementationOnce(() =>
+      Promise.resolve({
+        data: {
+          token: 'someToken',
+          user: {
+            email: emailValue,
+            _id: 'someId',
+            isAdmin: false,
+          },
+        },
+      }),
+    );
     const { getByText, getByPlaceholderText } = render(<LoginPage />, {
       wrapper: ({ children }) => (
         <Provider store={Store}>
@@ -66,6 +79,14 @@ describe('LoginPage', () => {
         email: emailValue,
         password,
       });
+    });
+
+    expect(loginAction).toHaveBeenCalledTimes(1);
+    expect(loginAction).toHaveBeenCalledWith({
+      _id: 'someId',
+      email: 'testmail@test.test',
+      isAdmin: false,
+      token: 'someToken',
     });
   });
 
@@ -120,6 +141,8 @@ describe('LoginPage', () => {
         expect(label).toBeInTheDocument();
       });
     }
+
+    expect(loginAction).not.toHaveBeenCalled();
   });
 
   it('it render: with validationErrors coming from request', async () => {
@@ -179,5 +202,7 @@ describe('LoginPage', () => {
       const emailLabel = getByTestId('password-label');
       expect(emailLabel).toHaveTextContent(`Password is incorrect`);
     });
+
+    expect(loginAction).not.toHaveBeenCalled();
   });
 });

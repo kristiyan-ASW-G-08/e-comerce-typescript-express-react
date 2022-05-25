@@ -8,6 +8,8 @@ import postRequest from '@/utilities/postRequest';
 import transformValidationErrors from '@/utilities/transformValidationErrors';
 import { loginAction } from '@/actions/authActions';
 import { setAction, removeAction } from '@/actions/notificationActions';
+import FormWrapper from '@/components/FormWrapper';
+import FormButton from '@/components/FormButton';
 interface FormValues {
   email: string;
   password: string;
@@ -21,14 +23,12 @@ export const LoginPage: FC = () => {
   ): Promise<any> => {
     try {
       const { data } = await postRequest('users/user/tokens', formValues);
-      if (data.validationErrors) {
+      console.log(data);
+      if (data?.validationErrors) {
         setErrors(transformValidationErrors(data.validationErrors));
       } else {
-        console.log(data);
         const { token, user } = data;
         const authState = { token, ...user };
-        console.log(authState);
-
         //@ts-ignore
         dispatch(
           //@ts-ignore
@@ -55,27 +55,20 @@ export const LoginPage: FC = () => {
       onSubmit={submitHandler}
     >
       {({ isSubmitting }: { isSubmitting: boolean }) => (
-        <div className="flex h-96 w-full justify-center items-center my-32">
-          <Form className="flex flex-col w-full md:w-3/6 space-y-5 border rounded p-10 mx-4">
-            <Input name="email" type="email" placeholder="Email address" />
+        <FormWrapper>
+          <Input name="email" type="email" placeholder="Email address" />
 
-            <Input name="password" type="password" placeholder="Password" />
-            <div className="flex items-center justify-between">
-              <button
-                className="bg-red-400 hover:bg-red-700 text-neutral-50 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                type="submit"
-              >
-                Login
-              </button>
-              <button
-                type="reset"
-                className="text-red-400  font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              >
-                Reset
-              </button>
-            </div>
-          </Form>
-        </div>
+          <Input name="password" type="password" placeholder="Password" />
+          <div className="flex items-center justify-between">
+            <FormButton content="Login" isSubmitting={isSubmitting} />
+            <button
+              type="reset"
+              className="text-red-400  font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            >
+              Reset
+            </button>
+          </div>
+        </FormWrapper>
       )}
     </Formik>
   );

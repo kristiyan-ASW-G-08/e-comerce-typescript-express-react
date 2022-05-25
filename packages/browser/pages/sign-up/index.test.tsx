@@ -8,8 +8,7 @@ import postRequest from '@/utilities/postRequest';
 import transformValidationErrors from '@/utilities/transformValidationErrors';
 import createMockRouter from '../../testUtilities/createMockRouter';
 
-jest.mock('utilities/postRequest');
-
+jest.mock('@/utilities/postRequest');
 
 const postRequestMock = postRequest as jest.MockedFunction<typeof postRequest>;
 transformValidationErrors as jest.MockedFunction<
@@ -67,8 +66,6 @@ describe('SignUpPage', () => {
         confirmPassword: password,
       });
     });
-
- 
   });
 
   it('it render: with validationErrors', async () => {

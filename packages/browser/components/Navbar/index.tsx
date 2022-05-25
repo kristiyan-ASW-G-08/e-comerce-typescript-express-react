@@ -157,6 +157,14 @@ const Navbar: FC = () => {
                 />
               </>
             )}
+            {authState.isAdmin && authState.token ? (
+              <NavLink
+                href="/create-product"
+                text="New Product"
+              />
+            ) : (
+              ''
+            )}
           </ul>
 
           <button
@@ -212,6 +220,18 @@ const Navbar: FC = () => {
                 fn={setMobileNavState}
                 href="/sign-up"
                 text="Sign Up"
+                isMobile
+              />
+            </>
+          )}
+          {authState.isAdmin ? (
+            ''
+          ) : (
+            <>
+              <NavLink
+                fn={setMobileNavState}
+                href="/create-product"
+                text="New Product"
                 isMobile
               />
             </>
