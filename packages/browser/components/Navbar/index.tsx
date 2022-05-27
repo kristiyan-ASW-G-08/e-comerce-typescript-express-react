@@ -7,14 +7,15 @@ import Search from 'assets/search.svg';
 import Bars from 'assets/bars-solid.svg';
 import NavLink from '../NavLink';
 import { useDispatch, useSelector } from 'react-redux';
-import { logoutAction } from '@/actions/authActions';
-
+import { logout } from '../../slices/AuthSlice';
+import Basket from '../Basket';
 const Navbar: FC = () => {
   const [isActive, setIsActive] = useState<boolean>(false);
   const [isActiveCategories, setIsActiveCategories] = useState<boolean>(false);
   const [focused, setFocused] = useState(false);
   const dispatch = useDispatch();
   const authState = useSelector((state: any) => state.auth);
+  const basket = useSelector((state: any) => state.basket);
   const notificationState = useSelector((state: any) => state.notification);
   console.log(authState, 'navbar');
   const onFocus = () => setFocused(true);
@@ -130,15 +131,18 @@ const Navbar: FC = () => {
             <NavLink href="/deals" text="About Us" />
             <NavLink href="/deals" text="Contacts" />
             {authState.token ? (
-              <NavLink
-                // @ts-ignore
-                fn={() => dispatch(logoutAction())}
-                href="/"
-                text="Log Out"
-                styles={
-                  'text-neutral-50 bg-red-400 px-4 py-1 rounded hover:text-red-400 font-bold hover:bg-slate-700'
-                }
-              />
+              <>
+                <NavLink
+                  // @ts-ignore
+                  fn={() => dispatch(logout())}
+                  href="/"
+                  text="Log Out"
+                  styles={
+                    'text-neutral-50 bg-red-400 px-4 py-1 rounded hover:text-red-400 font-bold hover:bg-slate-700'
+                  }
+                />
+                <Basket products={basket} />
+              </>
             ) : (
               <>
                 <NavLink
@@ -158,10 +162,7 @@ const Navbar: FC = () => {
               </>
             )}
             {authState.isAdmin && authState.token ? (
-              <NavLink
-                href="/create-product"
-                text="New Product"
-              />
+              <NavLink href="/create-product" text="New Product" />
             ) : (
               ''
             )}

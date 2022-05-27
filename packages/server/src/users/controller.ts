@@ -70,7 +70,7 @@ export const logIn = async (
         isAdmin: user.isAdmin,
       },
       SECRET,
-      { expiresIn: '1h' },
+      { expiresIn: '24h', algorithm: 'HS256' },
     );
     const { date, _id, isAdmin } = user;
     res.status(200).json({

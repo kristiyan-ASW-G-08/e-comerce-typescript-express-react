@@ -151,7 +151,7 @@ const Footer: FC = () => (
                 className="flex-shrink-0 bg-red-400 hover:bg-red-700 border-red-400 hover:border-red-700 text-sm border-4 text-white py-1 px-2 rounded"
                 type="button"
               >
-                Sign Up
+              Subscribe
               </button>
               <button
                 className="flex-shrink-0 border-transparent border-4 text-red-400 hover:text-red-700 text-sm py-1 px-2 rounded"

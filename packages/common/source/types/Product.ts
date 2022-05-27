@@ -1,6 +1,6 @@
 export interface SpecificationField {
-  path: string;
-  value: string;
+  name: string;
+  description: string;
 }
 export default interface Product {
   user: string;
@@ -19,4 +19,5 @@ export default interface Product {
   numReviews: number;
   price: number;
   stock: number;
+  _id:string;
 }

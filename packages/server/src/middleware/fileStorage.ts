@@ -14,9 +14,10 @@ const fileStorage = multer.diskStorage({
   filename: (_: Request, file, cb: (...args: any) => any): void => {
     cb(
       null,
-      `${new Date().toISOString().replace(/:/g, '-')}-${file.originalname}`,
+      `${new Date().toISOString().replace(/:/g, '-')}-${
+        file.originalname.split('.')[0]
+      }`,
     );
   },
 });
-
 export default fileStorage;

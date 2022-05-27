@@ -10,6 +10,8 @@
     "test": "jest --watch"
   },
   "dependencies": {
+    "@cloudinary/react": "^1.3.0",
+    "@cloudinary/url-gen": "^1.7.0",
     "@fortawesome/fontawesome-svg-core": "^6.1.1",
     "@fortawesome/free-brands-svg-icons": "^6.1.1",
     "@fortawesome/free-solid-svg-icons": "^6.1.1",
@@ -22,6 +24,7 @@
     "react-dom": "18.1.0",
     "react-redux": "^8.0.1",
     "redux": "^4.2.0",
+    "redux-persist": "^6.0.0",
     "redux-thunk": "^2.4.1"
   },
   "devDependencies": {
@@ -33,6 +36,7 @@
     "@types/node": "17.0.35",
     "@types/react": "18.0.9",
     "@types/react-dom": "18.0.4",
+    "@types/redux-persist": "^4.3.1",
     "autoprefixer": "^10.4.7",
     "babel-jest": "^28.0.3",
     "eslint": "^7.32.0",

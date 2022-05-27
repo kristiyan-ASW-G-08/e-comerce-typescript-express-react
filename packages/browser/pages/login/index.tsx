@@ -6,7 +6,8 @@ import UserLoginValidator from '@eco/common/source/schemaValidators/UserLoginVal
 import Input from 'components/Input';
 import postRequest from '@/utilities/postRequest';
 import transformValidationErrors from '@/utilities/transformValidationErrors';
-import { loginAction } from '@/actions/authActions';
+// import { loginAction } from '@/actions/authActions';
+import { login } from '../../slices/AuthSlice';
 import { setAction, removeAction } from '@/actions/notificationActions';
 import FormWrapper from '@/components/FormWrapper';
 import FormButton from '@/components/FormButton';
@@ -30,16 +31,16 @@ export const LoginPage: FC = () => {
         const { token, user } = data;
         const authState = { token, ...user };
         //@ts-ignore
-        dispatch(
-          //@ts-ignore
-          setAction({
-            content: 'You have logged in!',
-            type: 'message',
-            isActive: true,
-          }),
-        );
+        // dispatch(
+        //   //@ts-ignore
+        //   setAction({
+        //     content: 'You have logged in!',
+        //     type: 'message',
+        //     isActive: true,
+        //   }),
+        // );
         //@ts-ignore
-        dispatch(loginAction(authState));
+        dispatch(login(authState));
       }
     } catch (error) {
       console.log(error);

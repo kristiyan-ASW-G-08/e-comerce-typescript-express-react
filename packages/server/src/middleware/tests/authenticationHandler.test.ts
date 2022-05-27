@@ -34,7 +34,7 @@ describe('authenticationHandler', (): void => {
         userId,
       },
       SECRET,
-      { expiresIn: '1h' },
+      { expiresIn: '1h', algorithm: 'HS256' },
     );
     const reqMock = httpMocks.createRequest({
       method: 'POST',
@@ -72,7 +72,7 @@ describe('authenticationHandler', (): void => {
   > => {
     expect.assertions(1);
     const nextMock = jest.fn();
-    const token = jwt.sign({}, SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({}, SECRET, { expiresIn: '1h', algorithm: 'HS256' });
     const reqMock = httpMocks.createRequest({
       method: 'POST',
       url: '/',

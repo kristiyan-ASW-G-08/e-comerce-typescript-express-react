@@ -16,7 +16,7 @@ const adminHandler = (
   }
   const token = authHeader.split(' ')[1];
   // @ts-ignore
-  const { isAdmin } = verify(token, SECRET);
+  const { isAdmin } = verify(token, SECRET, { algorithms: ['HS256'] });
   if (isAdmin === false) {
     throw error;
   }

@@ -23,7 +23,7 @@ export const UploadButton: FC<UploadButtonProps> = ({
   };
   return (
     <div>
-      {fileUrl ? <img className="h-20 w-20" src={fileUrl} alt="" /> : ''}
+      {fileUrl ? <img className="h-28 w-24 " src={fileUrl} alt="" /> : ''}
       <input
         data-testid="file-input"
         ref={inputRef}

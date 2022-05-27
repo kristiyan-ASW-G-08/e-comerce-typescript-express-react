@@ -25,6 +25,5 @@ const ProductSchema: Schema<ProductType> = new Schema<ProductType>(
   { timestamps: true },
 );
 
-//@ts-ignore
 
 export default mongoose.model<ProductType>('Product', ProductSchema);

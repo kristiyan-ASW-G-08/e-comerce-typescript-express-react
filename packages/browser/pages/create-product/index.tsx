@@ -6,7 +6,6 @@ import ProductValidatorClient from '@eco/common/source/schemaValidators/ProductV
 import Input from 'components/Input';
 import postRequest from '@/utilities/postRequest';
 import transformValidationErrors from '@/utilities/transformValidationErrors';
-import { loginAction } from '@/actions/authActions';
 import { setAction, removeAction } from '@/actions/notificationActions';
 import FormWrapper from '@/components/FormWrapper';
 import FormButton from '@/components/FormButton';
@@ -19,7 +18,7 @@ export interface SpecificationField {
 }
 interface FormValues {
   name: string;
-  images: File[];
+  files: File[];
   specifications: SpecificationField[];
   brand: string;
   category:
@@ -46,7 +45,7 @@ export const CreateProductPage: FC = () => {
 
       const valuesWithoutEntries = Object.fromEntries(
         Object.entries(formValues).filter(
-          ([key, value]) => key !== 'specifications' && 'images',
+          ([key, value]) => key !== 'specifications' && 'files',
         ),
       );
 
@@ -56,9 +55,7 @@ export const CreateProductPage: FC = () => {
         'specifications',
         JSON.stringify(formValues.specifications),
       );
-      formValues.images.forEach(file =>
-        formData.append('images', file, file.name),
-      );
+      formValues.files.forEach(file => formData.append('files', file));
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_SERVER_URL}/products`,
         {
@@ -69,12 +66,13 @@ export const CreateProductPage: FC = () => {
           },
         },
       );
-      console.log(await response.json());
-      //   console.log(data);
-      //   if (data?.validationErrors) {
-      //     setErrors(transformValidationErrors(data.validationErrors));
-      //   } else {
-      //   }
+
+      const { data } = await response.json();
+      if (data?.validationErrors) {
+        setErrors(transformValidationErrors(data.validationErrors));
+      } else if (data.productId) {
+        router.push(`/product/${data.productId}`);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -84,7 +82,7 @@ export const CreateProductPage: FC = () => {
       validationSchema={ProductValidatorClient}
       initialValues={{
         name: '',
-        images: [],
+        files: [],
         specifications: [],
         brand: '',
         //@ts-ignore
@@ -140,7 +138,7 @@ export const CreateProductPage: FC = () => {
               );
             })}
 
-            {values.images.map((value, index) => {
+            {values.files.map((value, index) => {
               return (
                 <div
                   className="border rounded p-3  flex space-x-5 flow-col"
@@ -148,15 +146,15 @@ export const CreateProductPage: FC = () => {
                 >
                   {}
                   <UploadButton
-                    {...getFieldProps(`images[${index}]`)}
-                    name={`images[${index}]`}
+                    {...getFieldProps(`files[${index}]`)}
+                    name={`files[${index}]`}
                     setFieldValue={setFieldValue}
                   />
                   <button
                     type="button"
                     onClick={() => {
-                      setFieldValue('images', [
-                        ...values.images.filter((_, i) => i !== index),
+                      setFieldValue('files', [
+                        ...values.files.filter((_, i) => i !== index),
                       ]);
                     }}
                   >
@@ -187,7 +185,7 @@ export const CreateProductPage: FC = () => {
             <div className="flex items-center justify-between">
               <button
                 onClick={() => {
-                  setFieldValue('images', [...values.images, '']);
+                  setFieldValue('files', [...values.files, '']);
                 }}
                 type="button"
                 className="text-red-400  font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
@@ -195,7 +193,7 @@ export const CreateProductPage: FC = () => {
                 Add Image
               </button>
               <p className="text-red-400 ">
-                {typeof errors.images === 'string' ? errors.images : ''}
+                {typeof errors.files === 'string' ? errors.files : ''}
               </p>
             </div>
             <div className="flex items-center justify-between">

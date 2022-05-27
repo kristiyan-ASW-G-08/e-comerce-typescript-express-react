@@ -1,6 +1,7 @@
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
   faBars,
+  faStar,
   faSearch,
   faDotCircle,
 } from '@fortawesome/free-solid-svg-icons';
@@ -12,4 +13,4 @@ import {
   faYoutube,
 } from '@fortawesome/free-brands-svg-icons';
 
-library.add(fab, faBars, faTwitter, faInstagram, faFacebook, faYoutube);
+library.add(fab, faBars, faTwitter, faInstagram, faFacebook, faYoutube,);

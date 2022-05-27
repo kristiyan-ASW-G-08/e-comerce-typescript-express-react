@@ -8,7 +8,7 @@ const errorHandler = (
   res: Response,
   next: NextFunction,
 ): void => {
-  console.log(errorHandler);
+  console.log(error);
   logger.error(RESTError);
   const status = error.status || 500;
   const { message, validationErrors } = error;

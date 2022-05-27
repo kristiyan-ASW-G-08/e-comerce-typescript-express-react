@@ -3,7 +3,7 @@ import imageFileTypes from '../fileTypes/imageFileTypes';
 import * as yup from 'yup';
 const ProductValidatorClient = ProductValidator.concat(
   yup.object().shape({
-    images: yup
+    files: yup
       .array()
       .required('Images are Required')
       .min(3, 'Add More Images. Minimum of Three.')
@@ -16,6 +16,7 @@ const ProductValidatorClient = ProductValidator.concat(
             'fileType',
             'Upload an Image. Current file type is not supported',
             value => {
+            
               if (value && value.type) {
                 return imageFileTypes.includes(value.type);
               } else if (value && value.file) {

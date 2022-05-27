@@ -14,10 +14,16 @@ const validationHandler = (
   ): Promise<void> => {
     try {
       for await (const { schema, target } of validators) {
-        const validationTarget = req[target];
-        await schema.validate(validationTarget, {
-          abortEarly: false,
-        });
+        if (target === 'req') {
+          await schema.validate(req, {
+            abortEarly: false,
+          });
+        } else {
+          const validationTarget = req[target];
+          await schema.validate(validationTarget, {
+            abortEarly: false,
+          });
+        }
       }
       next();
     } catch (err) {

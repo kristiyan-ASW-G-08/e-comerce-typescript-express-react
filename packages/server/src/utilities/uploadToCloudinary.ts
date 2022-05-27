@@ -17,7 +17,7 @@ const uploadToCloudinary = async (
     // @ts-ignore
     return await cloudinary.v2.uploader.upload(path, {
       public_id: filename,
-      folder: 'twittclone',
+      folder: 'commerce',
     });
   } catch {
     const { status, message } = errors.InternalServerError;
