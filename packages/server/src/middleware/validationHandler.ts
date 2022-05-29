@@ -27,15 +27,20 @@ const validationHandler = (
       }
       next();
     } catch (err) {
+      console.log(err);
       // @ts-ignore
-      const validationErrors = err.inner.map(
-        ({ path, message }: ValidationError): CustomValidationError => ({
-          path,
-          message,
-        }),
-      );
-      const { status, message } = errors.BadRequest;
-      next(new RESTError(status, message, validationErrors));
+      if (err.inner) {
+        // @ts-ignore
+        const validationErrors = err.inner.map(
+          ({ path, message }: ValidationError): CustomValidationError => ({
+            path,
+            message,
+          }),
+        );
+        const { status, message } = errors.BadRequest;
+        next(new RESTError(status, message, validationErrors));
+      }
+      next(err);
     }
   };
 };

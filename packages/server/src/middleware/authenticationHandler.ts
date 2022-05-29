@@ -16,7 +16,6 @@ const authenticationHandler = (
     throw error;
   }
   const token = authHeader.split(' ')[1];
-  console.log(token);
   // @ts-ignore
   const { userId } = verify(token, SECRET, { algorithms: ['HS256'] });
   if (!userId) {

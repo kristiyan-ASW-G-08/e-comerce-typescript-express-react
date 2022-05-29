@@ -7,7 +7,7 @@ import User from '@users/User';
 import connectToDB from '@utilities/connectToDB';
 import Product from '@products/Product';
 import deleteFle from '@utilities/deleteFile';
-
+jest.mock('@products/Product');
 jest.mock('@utilities/uploadToCloudinary', () =>
   jest.fn(() => Promise.resolve({ public_id: 'public_id' })),
 );
@@ -16,6 +16,7 @@ jest.mock('@utilities/deleteFromCloudinary');
 
 jest.mock('@utilities/deleteFile');
 
+Product as jest.MockedClass<typeof Product>;
 const port = process.env.PORT || 8080;
 const mockTemplate = 'MockTemplate';
 
@@ -37,7 +38,7 @@ describe('product routes', () => {
     { name, description },
     { name, description },
   ];
-  JSON.parse = jest.fn().mockImplementation(() => specifications);
+
   const SECRET = process.env.SECRET;
 
   let token: string;
@@ -59,14 +60,12 @@ describe('product routes', () => {
   });
   afterEach(async () => {
     mockFs.restore();
-    await Product.deleteMany({}).exec();
     await User.deleteMany({}).exec();
   });
   beforeAll(async () => {
     await mongoose.disconnect();
     await connectToDB(mongoURI);
     app.listen(port);
-    await Product.deleteMany({}).exec();
     await User.deleteMany({}).exec();
   });
 
@@ -75,11 +74,18 @@ describe('product routes', () => {
   });
 
   describe('post /products', () => {
+    afterEach(jest.clearAllMocks);
     it('should create a new product', async () => {
+      //@ts-ignore
+      Product.mockImplementation(() => ({
+        _id: 'someID',
+        save: jest.fn(() => ({ _id: 'someId' })),
+      }));
       jest.spyOn(jwt, 'verify').mockImplementation(() => ({
         userId: 'userId',
         isAdmin: true,
       }));
+      JSON.parse = jest.fn().mockImplementation(() => specifications);
       // expect.assertions(1);
 
       mockFs({
@@ -104,6 +110,79 @@ describe('product routes', () => {
         .set('Authorization', `Bearer ${token}`)
         .set('content-type', 'multipart/form-data');
       expect(response.status).toBe(201);
+    });
+
+    it('should now create a product when user is not authenticated', async () => {
+      //@ts-ignore
+      Product.mockImplementation(() => ({
+        _id: 'someID',
+        save: jest.fn(() => ({ _id: 'someId' })),
+      }));
+      jest.spyOn(jwt, 'verify').mockImplementation(() => ({
+        isAdmin: true,
+      }));
+      JSON.parse = jest.fn().mockImplementation(() => specifications);
+      // expect.assertions(1);
+
+      mockFs({
+        './images': {
+          'test.jpg': Buffer.from([8, 6, 7, 5, 3, 0, 9]),
+        },
+      });
+      const response = await request(app)
+        .post('/products')
+        .field({
+          name,
+          brand,
+          price,
+          stock,
+          description,
+          category,
+          specifications: JSON.stringify(specifications),
+        })
+        .attach('files', './images/test.jpg')
+        .attach('files', './images/test.jpg')
+        .attach('files', './images/test.jpg')
+        .set('Authorization', `Bearer ${token}`)
+        .set('content-type', 'multipart/form-data');
+      expect(response.status).toBe(401);
+    });
+
+    it('should now create a product when user is not admin', async () => {
+      //@ts-ignore
+      Product.mockImplementation(() => ({
+        _id: 'someID',
+        save: jest.fn(() => ({ _id: 'someId' })),
+      }));
+      jest.spyOn(jwt, 'verify').mockImplementation(() => ({
+        userId: 'suerId',
+        isAdmin: false,
+      }));
+      JSON.parse = jest.fn().mockImplementation(() => specifications);
+      // expect.assertions(1);
+
+      mockFs({
+        './images': {
+          'test.jpg': Buffer.from([8, 6, 7, 5, 3, 0, 9]),
+        },
+      });
+      const response = await request(app)
+        .post('/products')
+        .field({
+          name,
+          brand,
+          price,
+          stock,
+          description,
+          category,
+          specifications: JSON.stringify(specifications),
+        })
+        .attach('files', './images/test.jpg')
+        .attach('files', './images/test.jpg')
+        .attach('files', './images/test.jpg')
+        .set('Authorization', `Bearer ${token}`)
+        .set('content-type', 'multipart/form-data');
+      expect(response.status).toBe(403);
     });
   });
 });

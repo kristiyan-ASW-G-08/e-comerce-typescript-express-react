@@ -9,7 +9,7 @@ const adminHandler = (
 ): void => {
   const { SECRET } = process.env;
   const authHeader = req.get('Authorization');
-  const { status, message } = errors.Unauthorized;
+  const { status, message } = errors.Forbidden;
   const error = new RESTError(status, message);
   if (!authHeader) {
     throw error;

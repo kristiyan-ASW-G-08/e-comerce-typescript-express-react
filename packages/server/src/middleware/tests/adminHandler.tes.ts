@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import httpMocks from 'node-mocks-http';
 import jwt from 'jsonwebtoken';
-import authenticationHandler from '@customMiddleware/authenticationHandler';
+import adminHandler from '@customMiddleware/adminHandler';
 import RESTError from '@utilities/RESTError';
 import ValidationError from '@eco/common/source/types/ValidationError';
 
@@ -19,11 +19,11 @@ RESTErrorMock.mockImplementationOnce(
   }),
 );
 
-describe('authenticationHandler', (): void => {
+describe('adminHandler', (): void => {
   const { SECRET } = process.env;
   afterEach(() => jest.clearAllMocks());
   afterAll(() => jest.restoreAllMocks());
-  it(`should add userId to req when the authorization header is valid`, async (): Promise<
+  it(`should add userId to req when the authorization header is valid and user is admin`, async (): Promise<
     void
   > => {
     expect.assertions(5);
@@ -31,6 +31,7 @@ describe('authenticationHandler', (): void => {
     const userId = new mongoose.Types.ObjectId();
     const token = jwt.sign(
       {
+        isAdmin: true,
         userId,
       },
       SECRET,
@@ -44,7 +45,7 @@ describe('authenticationHandler', (): void => {
       },
     });
     const resMock = httpMocks.createResponse();
-    authenticationHandler(reqMock, resMock, nextMock);
+    adminHandler(reqMock, resMock, nextMock);
 
     expect(jwt.verify).toHaveBeenCalledTimes(1);
     expect(jwt.verify).toHaveBeenCalledWith(token, SECRET);
@@ -64,15 +65,18 @@ describe('authenticationHandler', (): void => {
     const resMock = httpMocks.createResponse();
 
     expect((): void =>
-      authenticationHandler(reqMock, resMock, nextMock),
+      adminHandler(reqMock, resMock, nextMock),
     ).toThrowErrorMatchingSnapshot();
   });
-  it("should throw an error with a status of 401: Unauthorized when the decoded jwt token doesn't contain a user id ", async (): Promise<
+  it('should throw an error with a status of 403: Forbidden when the user is not admin ', async (): Promise<
     void
   > => {
     expect.assertions(1);
     const nextMock = jest.fn();
-    const token = jwt.sign({}, SECRET, { expiresIn: '1h', algorithm: 'HS256' });
+    const token = jwt.sign({ isAdmn: false }, SECRET, {
+      expiresIn: '1h',
+      algorithm: 'HS256',
+    });
     const reqMock = httpMocks.createRequest({
       method: 'POST',
       url: '/',
@@ -83,7 +87,7 @@ describe('authenticationHandler', (): void => {
     const resMock = httpMocks.createResponse();
 
     expect((): void =>
-      authenticationHandler(reqMock, resMock, nextMock),
+      adminHandler(reqMock, resMock, nextMock),
     ).toThrowErrorMatchingSnapshot();
   });
 });
