@@ -7,19 +7,16 @@ interface BasketProps {
   products: BasketProduct[];
 }
 const Basket: FC<BasketProps> = ({ products }) => {
-  const firstThreeProducts = products.slice(0, 2);
   return (
-    <div>
       <button>
-        <FontAwesomeIcon icon={faCartShopping} />
-        Basket
+        <FontAwesomeIcon
+          className="text-2xl text-neutral-50"
+          icon={faCartShopping}
+        />
+        <p className="absolute p-3 h-4 w-4 flex items-center justify-center text-neutral-50 rounded-full bg-red-400 -translate-y-10 translate-x-4">
+          {products.length}
+        </p>
       </button>
-      <div className="absolute">
-        {firstThreeProducts.map(product => (
-          <BasketItem key={product._id} product={product} />
-        ))}
-      </div>
-    </div>
   );
 };
 export default Basket;

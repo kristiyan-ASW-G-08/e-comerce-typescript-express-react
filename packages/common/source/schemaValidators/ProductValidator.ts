@@ -1,8 +1,8 @@
 import imageFileTypes from '../fileTypes/imageFileTypes';
 import * as yup from 'yup';
 export const categories = [
-  'Phones & Tablets',
-  'Laptops & Computers',
+  'Phones and  Tablets',
+  'Laptops and  Computers',
   'TV',
   'Audio',
   'Peripherals',

@@ -22,8 +22,8 @@ interface FormValues {
   specifications: SpecificationField[];
   brand: string;
   category:
-    | 'Phones & Tablets'
-    | 'Laptops & Computers'
+    | 'Phones and Tablets'
+    | 'Laptops and Computers'
     | 'TV'
     | 'Audio'
     | 'Peripherals';

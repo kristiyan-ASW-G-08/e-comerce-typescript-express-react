@@ -7,7 +7,14 @@ import ProductValidator from '@eco/common/source/schemaValidators/ProductValidat
 import FilesValidator from '@eco/common/source/schemaValidators/FilesValidator';
 import adminHandler from '@src/middleware/adminHandler';
 import validationHandler from '@src/middleware/validationHandler';
-import { getProduct, postProduct } from './controllers';
+import {
+  getProduct,
+  postProduct,
+  getProducts,
+  getProductsByName,
+} from './controllers';
+import SortStringValidator from '@eco/common/source/schemaValidators/SortStringValidator';
+import paginationHandler from '@src/middleware/paginationHandler';
 
 const multerStorage = multer({ storage, fileFilter }).array('files');
 
@@ -25,5 +32,14 @@ router.post(
   postProduct,
 );
 
-router.get('/product/:productId', getProduct);
+router.get('/products/:productId', getProduct);
+
+router.get('/products/names/:name', getProductsByName);
+
+router.get(
+  '/products',
+  validationHandler([{ schema: SortStringValidator, target: 'query' }]),
+  paginationHandler,
+  getProducts,
+);
 export default router;

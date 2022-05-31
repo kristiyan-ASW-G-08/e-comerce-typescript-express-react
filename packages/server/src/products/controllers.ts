@@ -12,6 +12,7 @@ import uploadToCloudinary from '@src/utilities/uploadToCloudinary';
 import deleteCloudinaryFile from '@src/utilities/deleteFromCloudinary';
 import Product from './Product';
 import getProductById from './services';
+import ProductType from '@src/types/ProductType';
 
 export const postProduct = async (
   {
@@ -57,6 +58,76 @@ export const getProduct = async (
     res
       .status(200)
       .json({ data: { product: await getProductById(productId) } });
+  } catch (err) {
+    passErrorToNext(err, next);
+  }
+};
+
+export const getProducts = async (
+  { pagination }: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
+  try {
+    const { page, limit, category, priceLower, priceUpper, brand } = pagination;
+    let query = { category, price: { $gte: priceLower, $lte: priceUpper } };
+    if (brand !== '') {
+      //@ts-ignore
+      query.brand = brand;
+    }
+
+    console.log(query);
+    const { documents, count } = await findDocs<ProductType>({
+      model: Product,
+      //@ts-ignore
+      pagination,
+      //@ts-ignore
+      query,
+    });
+    const { prevPage, nextPage } = getPaginationURLs({
+      page,
+      urlExtension: 'products',
+      count,
+      queries: {
+        limit,
+        category,
+      },
+    });
+    console.log(documents.length, prevPage, nextPage);
+    res.status(200).json({
+      data: {
+        products: documents,
+        links: {
+          next: nextPage,
+          prev: prevPage,
+        },
+      },
+    });
+  } catch (err) {
+    passErrorToNext(err, next);
+  }
+};
+
+export const getProductsByName = async (
+  { params: { name } }: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
+  try {
+    const searchRegex = new RegExp(name, 'gi');
+    const products = await Product.find(
+      {
+        name: { $regex: searchRegex },
+      },
+      'name images brand price category',
+    )
+      .select([
+        { $match: { $text: { $search: 'Pattern' } } },
+        { score: { $meta: 'textScore' } },
+      ])
+      .limit(10)
+      .exec();
+    res.status(200).json({ data: { products } });
   } catch (err) {
     passErrorToNext(err, next);
   }

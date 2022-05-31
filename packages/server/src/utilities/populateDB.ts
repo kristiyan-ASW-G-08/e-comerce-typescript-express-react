@@ -1,70 +1,84 @@
-import faker from 'faker';
 import mongoose from 'mongoose';
-import User from '@users/User';
-import Tweet from '@tweets/Tweet';
+import Tweet from '@products/Product';
 import { getUserByEmail } from '@users/services';
+import Product from '@products/Product';
 
-function getRandomInt(min: number, max: number) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min)) + min;
+function randomIntFromInterval(min: number, max: number) {
+  // min and max included
+  return Math.floor(Math.random() * (max - min + 1) + min);
 }
-const tweetTemplates = {
-  1: `{{lorem.paragraph}},{{image.imageUrl}}`,
-  2: `{{lorem.sentences}}`,
-  3: `{{lorem.paragraph}},{{image.imageUrl}}`,
-  4: `{{lorem.paragraph}},{{image.imageUrl}}`,
-  5: `{{lorem.sentence}}`,
-  6: `{{lorem.paragraph}},{{image.imageUrl}}`,
-  7: `{{lorem.paragraph}}`,
-  8: `{{lorem.paragraph}},{{image.imageUrl}}`,
-  9: `{{lorem.word}},{{image.imageUrl}}`,
-};
 
-const populateDB = async (): Promise<void> => {
-  const usersNum = 30;
-  const users = new Array(usersNum)
-    .fill(null)
-    .map(e => {
-      return faker
-        .fake(
-          `{{internet.userName}},{{internet.userName}},{{internet.exampleEmail}},
-        {{internet.password}},{{image.avatar}},{{image.imageUrl}} `,
-        )
-        .split(',');
-    })
-    .map(([username, handle, email, password, avatar, cover]) => {
-      return { username, handle, email, password, avatar, cover };
-    });
-  const userDocuments = await User.insertMany(users);
-  for await (const user of userDocuments) {
-    const ids = userDocuments
-      .filter(
-        userDocument => userDocument._id.toString() !== user._id.toString(),
-      )
-      .map(({ _id }) => _id);
-    user.following = [...ids];
-    user.followers = usersNum - 1;
-    await user.save();
+const populateDB = async () => {
+  const images = [
+    'commerce/2022-05-26T08-49-48.555Z-41A9Ala2xAS',
+    'commerce/2022-05-26T08-49-48.556Z-51AwZ-AJMbS',
+    'commerce/2022-05-26T08-49-48.556Z-61+Rueuij0S',
+    'commerce/2022-05-26T08-49-48.557Z-61oA7CYJ7NL',
+    'commerce/2022-05-26T08-49-48.561Z-71QUoALdoAL',
+  ];
+  const specifications = [
+    { name: 'Cellular Technology', description: '4G	' },
+    { name: 'Screen Size', description: '6.6 inches	' },
+    { name: 'Item Dimensions', description: '	7.64 x 0.88 x 16.51 cm' },
+    { name: 'Cellular Technology', description: '4G	' },
+    { name: 'Screen Size', description: '6.6 inches	' },
+    { name: 'Item Dimensions', description: '	7.64 x 0.88 x 16.51 cm' },
+    { name: 'Cellular Technology', description: '4G	' },
+    { name: 'Screen Size', description: '6.6 inches	' },
+    { name: 'Item Dimensions', description: '	7.64 x 0.88 x 16.51 cm' },
+    { name: 'Cellular Technology', description: '4G	' },
+    { name: 'Screen Size', description: '6.6 inches	' },
+    { name: 'Item Dimensions', description: '	7.64 x 0.88 x 16.51 cm' },
+    { name: 'Cellular Technology', description: '4G	' },
+    { name: 'Screen Size', description: '6.6 inches	' },
+    { name: 'Item Dimensions', description: '	7.64 x 0.88 x 16.51 cm' },
+    { name: 'Cellular Technology', description: '4G	' },
+    { name: 'Screen Size', description: '6.6 inches	' },
+    { name: 'Item Dimensions', description: '	7.64 x 0.88 x 16.51 cm' },
+  ];
+  const names = ['Samsung Galaxy A13', 'Apple iPhone 13', 'Nokia G21'];
+  const description =
+    "Vivid display – More room to play with the 6.6-inch Infinity-V Display, FHD+ technology makes your everyday content look sharp, crisp, and clear.  Minimalist Design – Combining soft colors with a look and feel that's gentle to the touch and comfortable to hold.Quad Camera System – Capture memorable moments in crisp clear detail with the 50MP Main camera, Expand your viewing angle with the ultra-wide camera, optimise the focus with the Depth camera, and enhance your shots with the macro camera.";
 
-    const tweets = new Array(10)
-      .fill(null)
-      .map((e, index) => {
-        const num = getRandomInt(1, 9);
-        // @ts-ignore
-        return faker.fake(tweetTemplates[num]).split(',');
-      })
-      .map(([text, image]) => {
-        if (image) {
-          return { text, image, type: 'text', user: user._id };
-        }
-        return { text, type: 'text', user: user._id };
-      });
+  const priceArray = [150, 250, 500, 750, 1000, 1500, 2000];
+  const categories = [
+    'Phones and Tablets',
+    'Laptops and Computers',
+    'TV',
+    'Audio',
+    'Peripherals',
+  ];
+  const brands = [
+    'Samsung',
+    'Apple',
+    'Huawei',
+    'Nokia',
+    'Sony',
+    'LG',
+    'HTC',
+    'Motorola',
+  ];
+  const numbers = Array.from(Array(1000).keys());
 
-    await Tweet.insertMany(tweets);
+  for await (const number of numbers) {
+    const priceNumber = randomIntFromInterval(0, 6);
+    const categoryNumber = randomIntFromInterval(0, 4);
+    const namesNumber = randomIntFromInterval(0, 2);
+    const brandsNum = randomIntFromInterval(0, 7);
+    const price = priceArray[priceNumber];
+    const brand = brands[brandsNum];
+    const category = categories[categoryNumber];
+    const name = names[namesNumber];
+    await new Product({
+      name,
+      brand,
+      price,
+      stock: 1000,
+      description,
+      category,
+      specifications,
+      images,
+    }).save();
   }
-
-  console.log(userDocuments);
 };
-
 export default populateDB;

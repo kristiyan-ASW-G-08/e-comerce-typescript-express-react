@@ -6,6 +6,7 @@ import compression from 'compression';
 import userRoutes from '@users/routes';
 import productRoutes from './products/routes';
 import errorHandler from '@customMiddleware/errorHandler';
+import populateDB from './utilities/populateDB';
 const app: Application = express();
 
 app.use(helmet());
@@ -16,6 +17,7 @@ app.use(
     extended: true,
   }),
 );
+
 app.use((req: Request, res: Response, next: NextFunction): void => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader(
@@ -30,7 +32,6 @@ app.use('/images', express.static('./images'));
 
 app.use(userRoutes);
 app.use(productRoutes);
-
 //@ts-ignore
 
 app.use(errorHandler);

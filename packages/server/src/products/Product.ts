@@ -10,6 +10,7 @@ const ProductSchema: Schema<ProductType> = new Schema<ProductType>(
     name: { required: true, type: String },
     description: { required: true, type: String },
     category: { required: true, type: String },
+    brand: { required: true, type: String },
     price: { required: true, type: Number },
     stock: { required: true, type: Number, default: 0 },
     images: [
@@ -23,5 +24,7 @@ const ProductSchema: Schema<ProductType> = new Schema<ProductType>(
   },
   { timestamps: true },
 );
+
+ProductSchema.index({ name: 'text' });
 
 export default mongoose.model<ProductType>('Product', ProductSchema);

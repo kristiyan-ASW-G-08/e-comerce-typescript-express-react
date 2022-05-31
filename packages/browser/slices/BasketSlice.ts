@@ -9,6 +9,8 @@ export interface BasketProduct {
   name: string;
   price: number;
   quantity: number;
+  image: string;
+  stock: number;
 }
 type _id = string;
 const initialState: BasketProduct[] = [];

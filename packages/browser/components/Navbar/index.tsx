@@ -3,23 +3,20 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FC, useRef, useState } from 'react';
 import Logo from '../Logo';
 import Notification from '../Notification';
-import Search from 'assets/search.svg';
-import Bars from 'assets/bars-solid.svg';
+import Link from 'next/link';
 import NavLink from '../NavLink';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../slices/AuthSlice';
 import Basket from '../Basket';
+import SearchBar from '../SearchBar';
 const Navbar: FC = () => {
   const [isActive, setIsActive] = useState<boolean>(false);
   const [isActiveCategories, setIsActiveCategories] = useState<boolean>(false);
-  const [focused, setFocused] = useState(false);
+
   const dispatch = useDispatch();
   const authState = useSelector((state: any) => state.auth);
   const basket = useSelector((state: any) => state.basket);
   const notificationState = useSelector((state: any) => state.notification);
-  console.log(authState, 'navbar');
-  const onFocus = () => setFocused(true);
-  const onBlur = () => setFocused(false);
 
   const setMobileNavState = () => {
     setIsActive(prev => !prev);
@@ -38,23 +35,7 @@ const Navbar: FC = () => {
         ''
       )}
       <nav className=" mx-auto p-7 w-screen border-b-4 bg-slate-700 border-red-400 flex flex-col justify-center ">
-        <form className="mb-6 flex justify-center align-center ">
-          <p
-            className={`${
-              focused ? 'text-red-400' : 'text-gray-400 '
-            } absolute top-7 left-7 py-2 px-4`}
-          >
-            <FontAwesomeIcon height={15} icon={faSearch} />
-          </p>
-          <input
-            onFocus={onFocus}
-            onBlur={onBlur}
-            className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-1 px-10 text-slate-700  focus:outline-none focus:bg-white focus:border-red-400 "
-            type="search"
-            name="search"
-            placeholder="Search Product Here"
-          />
-        </form>
+        <SearchBar />
 
         <div className="flex items-center justify-between ">
           <Logo />
@@ -132,6 +113,11 @@ const Navbar: FC = () => {
             <NavLink href="/deals" text="Contacts" />
             {authState.token ? (
               <>
+                <Link href="/basket">
+                  <a>
+                    <Basket products={basket} />
+                  </a>
+                </Link>
                 <NavLink
                   // @ts-ignore
                   fn={() => dispatch(logout())}
@@ -141,7 +127,6 @@ const Navbar: FC = () => {
                     'text-neutral-50 bg-red-400 px-4 py-1 rounded hover:text-red-400 font-bold hover:bg-slate-700'
                   }
                 />
-                <Basket products={basket} />
               </>
             ) : (
               <>

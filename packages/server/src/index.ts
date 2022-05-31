@@ -2,6 +2,7 @@ import https from 'https';
 import fs from 'fs';
 import connectToDB from '@utilities/connectToDB';
 import app from 'src/app';
+import populateDB from './utilities/populateDB';
 
 const initServer = (): void => {
   // const httpsApp = https.createServer(

@@ -1,17 +1,27 @@
 import { Request, Response, NextFunction } from 'express';
-import getSortString from '@utilities/getSortString';
 
 const paginationHandler = (
   req: Request,
   _: Response,
   next: NextFunction,
 ): void => {
-  const sort = req.query.sort || 'new';
+  console.log(req.query);
+  const category = req.query.category || 'Phones & tablets';
+  const brand = req.query.brand || '';
   req.pagination = {
+    //@ts-ignore
     limit: parseInt(req.query.limit, 10) || 25,
-    sort,
+    //@ts-ignore
+    category,
+    //@ts-ignore
+    brand,
+    //@ts-ignore
     page: parseInt(req.query.page, 10) || 1,
-    sortString: getSortString(sort),
+    //@ts-ignore
+    priceUpper: Number(req.query.priceUpper) || 10000,
+    //@ts-ignore
+    priceLower: Number(req.query.priceLower) || 1,
+    //@ts-ignore
   };
   next();
 };

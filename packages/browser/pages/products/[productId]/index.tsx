@@ -78,7 +78,7 @@ const ProductPage: FC<Product> = ({
         </div>
         <div className="w-4/6 flex flex-col space-y-5">
           <h1 className="font-bold">{name}</h1>
-          <Link href={`/categories/${category}`}>
+          <Link href={`/products?category=${category}`}>
             <a className="text-yellow-400 font-bold hover:text-red-400">
               {category}
             </a>
@@ -93,7 +93,16 @@ const ProductPage: FC<Product> = ({
             </p>
             <button
               onClick={() => {
-                dispatch(addProduct({ name, quantity: 1, price, _id }));
+                dispatch(
+                  addProduct({
+                    name,
+                    quantity: 1,
+                    price,
+                    _id,
+                    image: images[images.length - 1],
+                    stock,
+                  }),
+                );
               }}
               className=" bg-red-400 hover:bg-red-700 border-red-400 hover:border-red-700 text-sm border-4 text-white py-1 px-2 rounded"
               type="button"
@@ -124,9 +133,9 @@ export default ProductPage;
 
 export async function getServerSideProps(context: any) {
   const { productId } = context.query;
-
+  console.log(productId);
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_SERVER_URL}/product/${productId}`,
+    `${process.env.NEXT_PUBLIC_SERVER_URL}/products/${productId}`,
   );
   const {
     data: { product },

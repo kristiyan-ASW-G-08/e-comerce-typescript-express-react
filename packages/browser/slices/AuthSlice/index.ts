@@ -11,7 +11,7 @@ export interface AuthState {
   isAdmin: boolean;
 }
 
-const initialState = {
+export const initialState = {
   token: '',
   email: '',
   _id: '',

@@ -3,11 +3,11 @@ import Pagination from '@customTypes/Pagination';
 
 const findDocs = async <
   T extends Document,
-  Y = { [key: string]: string | mongoose.Types.ObjectId }
+  Y = { [key: string]: string | mongoose.Types.ObjectId | number }
 >({
   query,
   model,
-  pagination: { sortString, limit, page },
+  pagination: { limit, page },
 }: {
   query: Y;
   model: Model<T>;
@@ -18,10 +18,11 @@ const findDocs = async <
 }> => {
   const documents = await model
     .countDocuments()
+    //@ts-ignore
     .find(query)
-    .sort(sortString)
     .skip((page - 1) * limit)
     .limit(limit);
+  //@ts-ignore
   const count = (await model.countDocuments(query)) - page * limit;
 
   return {

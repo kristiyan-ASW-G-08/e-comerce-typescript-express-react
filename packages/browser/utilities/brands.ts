@@ -1,0 +1,45 @@
+const brands = {
+  'Laptops and Computers': [
+    'Samsung',
+    'Apple',
+    'Huawei',
+    'Nokia',
+    'Sony',
+    'LG',
+    'HTC',
+    'Motorola',
+  ],
+  'Phones and Tablets': [
+    'Samsung',
+    'Apple',
+    'Huawei',
+    'Nokia',
+    'Sony',
+    'LG',
+    'HTC',
+    'Motorola',
+  ],
+  TV: ['Samsung', 'Apple', 'Huawei', 'Nokia', 'Sony', 'LG', 'HTC', 'Motorola'],
+  Audio: [
+    'Samsung',
+    'Apple',
+    'Huawei',
+    'Nokia',
+    'Sony',
+    'LG',
+    'HTC',
+    'Motorola',
+  ],
+  Peripherals: [
+    'Samsung',
+    'Apple',
+    'Huawei',
+    'Nokia',
+    'Sony',
+    'LG',
+    'HTC',
+    'Motorola',
+  ],
+};
+
+export default brands;

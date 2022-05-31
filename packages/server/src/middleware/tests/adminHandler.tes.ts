@@ -73,7 +73,7 @@ describe('adminHandler', (): void => {
   > => {
     expect.assertions(1);
     const nextMock = jest.fn();
-    const token = jwt.sign({ isAdmn: false }, SECRET, {
+    const token = jwt.sign({ isAdmin: false }, SECRET, {
       expiresIn: '1h',
       algorithm: 'HS256',
     });
