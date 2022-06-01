@@ -14,6 +14,7 @@ declare namespace Express {
       priceLower: number;
       sortString: string;
       page: number;
+      hasDeal: boolean;
     };
   }
 }

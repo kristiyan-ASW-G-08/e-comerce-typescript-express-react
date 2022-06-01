@@ -49,6 +49,51 @@ export const postProduct = async (
   }
 };
 
+export const editProduct = async (
+  {
+    files,
+    body: { name, brand, price, stock, description, category, specifications },
+    params: { productId },
+  }: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
+  try {
+    let images: string[] = [];
+    //@ts-ignore
+    if (files) {
+      //@ts-ignore
+      for (const file of files) {
+        const { path, filename } = file;
+        images = [
+          ...images,
+          (await uploadToCloudinary(path, filename)).public_id,
+        ];
+        deleteFile(path);
+      }
+    }
+
+    const product = await getProductById(productId);
+    product.name = name;
+    product.brand = brand;
+    product.price = price;
+    product.stock = stock;
+    product.description = description;
+    product.category = category;
+    product.specifications = JSON.parse(specifications);
+    if (images.length > 3) {
+      for (const image of product.images) {
+        await deleteCloudinaryFile(image);
+      }
+      product.images = images;
+    }
+    await product.save();
+    res.status(201).json({ data: { productId: product._id } });
+  } catch (err) {
+    passErrorToNext(err, next);
+  }
+};
+
 export const getProduct = async (
   { params: { productId } }: Request,
   res: Response,
@@ -69,11 +114,23 @@ export const getProducts = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
-    const { page, limit, category, priceLower, priceUpper, brand } = pagination;
+    const {
+      page,
+      limit,
+      category,
+      priceLower,
+      priceUpper,
+      brand,
+      hasDeal,
+    } = pagination;
     let query = { category, price: { $gte: priceLower, $lte: priceUpper } };
     if (brand !== '') {
       //@ts-ignore
       query.brand = brand;
+    }
+    if (hasDeal === true) {
+      //@ts-ignore
+      query.hasDeal = hasDeal;
     }
 
     console.log(query);
@@ -93,7 +150,6 @@ export const getProducts = async (
         category,
       },
     });
-    console.log(documents.length, prevPage, nextPage);
     res.status(200).json({
       data: {
         products: documents,

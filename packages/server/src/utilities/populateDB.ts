@@ -78,6 +78,8 @@ const populateDB = async () => {
       category,
       specifications,
       images,
+      hasDeal: true,
+      dealPrice: price - 100,
     }).save();
   }
 };

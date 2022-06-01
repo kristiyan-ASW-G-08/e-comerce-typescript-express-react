@@ -12,6 +12,7 @@ import {
   postProduct,
   getProducts,
   getProductsByName,
+  editProduct,
 } from './controllers';
 import SortStringValidator from '@eco/common/source/schemaValidators/SortStringValidator';
 import paginationHandler from '@src/middleware/paginationHandler';
@@ -19,6 +20,15 @@ import paginationHandler from '@src/middleware/paginationHandler';
 const multerStorage = multer({ storage, fileFilter }).array('files');
 
 const router = express.Router();
+
+router.post(
+  '/products/:productId',
+  authenticationHandler,
+  adminHandler,
+  multerStorage,
+  validationHandler([{ schema: ProductValidator, target: 'body' }]),
+  editProduct,
+);
 
 router.post(
   '/products',

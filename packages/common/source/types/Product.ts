@@ -15,6 +15,8 @@ export default interface Product {
   specifications: SpecificationField[];
   brand: string;
   category: category;
+  hasDeal: boolean;
+  dealPrice: number;
   description: string;
   rating: number;
   numReviews: number;

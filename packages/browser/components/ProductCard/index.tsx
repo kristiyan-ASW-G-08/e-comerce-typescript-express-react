@@ -12,6 +12,8 @@ const ProductCard: FC<Product> = ({
   stock,
   images,
   brand,
+  hasDeal,
+  dealPrice,
 }) => {
   const dispatch = useDispatch();
   const image = cloudinary
@@ -28,16 +30,20 @@ const ProductCard: FC<Product> = ({
           />
           <div className="px-6 py-4">
             <h4 className="font-bold text-xl mb-2">{name}</h4>
-            <h4 className="font-bold text-sm text-neutral-400 mb-2">{brand}</h4>
+            <p className="font-bold text-sm text-neutral-400 mb-2">
+              {stock > 0 ? 'Available' : ''}
+            </p>
           </div>
           <div className="flex items-center justify-center">
             <div className="px-6 pt-4 pb-2">
-              <span className="inline-block bg-red-400 rounded-full px-3 py-1 text-sm font-semibold text-neutral-50 mr-2 mb-2">
-                ${price}
-              </span>
-              <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-                Only {stock} left
-              </span>
+              <p
+                className={`inline-block text-red-400  px-3 py-1  font-semibold  mr-2 mb-2 text-1xl space-x-3`}
+              >
+                <span className={`${hasDeal ? 'line-through' : ''}`}>
+                  ${price}
+                </span>
+                {hasDeal ? <span>Currently ${dealPrice}</span> : ''}
+              </p>
             </div>
           </div>
         </a>

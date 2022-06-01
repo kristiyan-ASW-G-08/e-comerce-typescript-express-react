@@ -20,6 +20,8 @@ const validationHandler = (
           });
         } else {
           const validationTarget = req[target];
+          console.log(validationTarget);
+          console.log(req[target]);
           await schema.validate(validationTarget, {
             abortEarly: false,
           });

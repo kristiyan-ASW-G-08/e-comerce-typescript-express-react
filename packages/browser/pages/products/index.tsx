@@ -10,10 +10,12 @@ const ProductsPage: FC<{
   products: Product[];
   links: { prev: number; next: number };
 }> = ({ products, links }) => {
+  console.log(products);
   const { query, push } = useRouter();
   const priceRanges = ['500-750', '750-1000', '1000-1500', '1500-2000'];
   const [currentPriceString, setCurrentPriceString] =
     useState<string>('100-10000');
+  const [hasDeal, setHasDeal] = useState<boolean>(false);
   const [currentBrand, setCurrentBrand] = useState<string>('');
   const [currentPage, setCurrentPage] = useState<string | undefined | string[]>(
     query.page,
@@ -39,15 +41,34 @@ const ProductsPage: FC<{
       )}&priceLower=${parseInt(prices[0])}&brand=${brand}`,
     );
   };
+
+  const setHasDealCheck = () => {
+    setHasDeal(prev => !prev);
+    const prices = currentPriceString.split('-');
+    push(
+      `/products?category=${query.category}&priceUpper=${parseInt(
+        prices[1],
+      )}&priceLower=${parseInt(
+        prices[0],
+      )}&hasDeal=${!hasDeal}&brand=${currentBrand}`,
+    );
+  };
   return (
     <section>
       <h1 className="ml-32 mt-14 font-bold text-3xl">{query.category}</h1>
-      <div className="flex px-32 py-10 space-x-12">
+      <div className="flex-col md:flex-row flex px-32 py-10 space-x-12">
         <div className="space-y-5">
           <PriceForm priceRanges={priceRanges} setPrice={setPrice} />
           {/*
  // @ts-ignore */}
           <BrandForm brands={brands[query.category]} setBrand={setBrand} />
+          <button
+            onClick={setHasDealCheck}
+            className="p-2 px-10 bg-blue-400 text-neutral-50 text-1xl"
+          >
+            Deals
+          </button>
+          <button></button>
         </div>
         <div className="grid md:grid-cols-2 auto-rows-min lg:grid-cols-4 gap-10">
           {products.map(product => (
@@ -98,7 +119,8 @@ const ProductsPage: FC<{
 export default ProductsPage;
 
 export async function getServerSideProps(context: any) {
-  const { category, priceUpper, priceLower, brand, page } = context.query;
+  const { category, priceUpper, priceLower, brand, page, hasDeal } =
+    context.query;
   console.log(priceUpper, priceLower, page);
   console.log(priceUpper, priceLower, brand);
   const response = await fetch(
@@ -108,14 +130,16 @@ export async function getServerSideProps(context: any) {
       priceUpper ? `&priceUpper=${priceUpper}` : ''
     }
     ${priceLower ? `&priceLower=${priceLower}` : ''}
-    ${brand ? `&brand=${brand}` : ''}
     ${page ? `&page=${page}` : ''}
+    ${brand ? `&brand=${brand}` : ''}
+    ${hasDeal ? `&hasDeal=${hasDeal}` : ''}
+
     `,
   );
   const {
     data: { links, products },
   } = await response.json();
-  console.log(links);
+
   console.log();
   return {
     props: {

@@ -7,7 +7,7 @@ import { faCircle, faDotCircle } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
 import ReviewForm from '@/components/ReviewForm';
 import { addProduct } from '../../../slices/BasketSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 const ProductPage: FC<Product> = ({
   name,
   images,
@@ -19,6 +19,7 @@ const ProductPage: FC<Product> = ({
   _id,
 }) => {
   const dispatch = useDispatch();
+  const authState = useSelector((state: any) => state.auth);
   const [currentImage, setCurrentImage] = useState<number>(0);
   const cloudniaryImages = images
     .slice()
@@ -109,6 +110,17 @@ const ProductPage: FC<Product> = ({
             >
               Add To Basket
             </button>
+            {authState.isAdmin && authState.token ? (
+              <Link href={`/products/edit/${_id}`}>
+                <a>
+                  <button className=" bg-blue-400 hover:bg-blue-700 border-blue-400 hover:border-blue-700 text-sm border-4 text-white py-1 px-2 rounded">
+                    Edit Product
+                  </button>
+                </a>
+              </Link>
+            ) : (
+              ''
+            )}
           </div>
 
           <table className="table-auto ">
@@ -124,7 +136,7 @@ const ProductPage: FC<Product> = ({
           </table>
         </div>
       </div>
-      <ReviewForm />
+      <ReviewForm productId={_id} />
     </section>
   );
 };

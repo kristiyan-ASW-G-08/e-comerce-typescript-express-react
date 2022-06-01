@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { Formik, Form, FormikValues, FormikHelpers, Field } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
-import ProductValidatorClient from '@eco/common/source/schemaValidators/ProductValidatorClient';
+import ProductValidator from '@eco/common/source/schemaValidators/ProductValidator';
 import Input from 'components/Input';
 import postRequest from '@/utilities/postRequest';
 import transformValidationErrors from '@/utilities/transformValidationErrors';
@@ -12,6 +12,7 @@ import FormButton from '@/components/FormButton';
 import UploadButton from '@/components/UploadButton';
 import createFormData from '@/utilities/createFormData';
 import { categories } from '@eco/common/source/schemaValidators/ProductValidator';
+import { NextPage } from 'next';
 export interface SpecificationField {
   path: string;
   value: string;
@@ -29,9 +30,37 @@ interface FormValues {
     | 'Peripherals';
   description: string;
   price: number;
-  inStock: number;
+  stock: number;
 }
-export const CreateProductPage: FC = () => {
+interface EditProductProps {
+  name: string;
+  files: string[];
+  specifications: SpecificationField[];
+  brand: string;
+  category:
+    | 'Phones and Tablets'
+    | 'Laptops and Computers'
+    | 'TV'
+    | 'Audio'
+    | 'Peripherals';
+  description: string;
+  price: number;
+  stock: number;
+  _id: string;
+}
+export const EditProduct: NextPage<EditProductProps> = ({
+  name,
+  files,
+  specifications,
+  brand,
+  //@ts-ignore
+  category,
+  description,
+  price,
+  stock,
+  _id,
+}) => {
+  console.log();
   const dispatch = useDispatch();
   const router = useRouter();
   const authState = useSelector((state: any) => state.auth);
@@ -57,7 +86,7 @@ export const CreateProductPage: FC = () => {
       );
       formValues.files.forEach(file => formData.append('files', file));
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/products`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/products/${_id}`,
         {
           method: 'POST',
           body: formData,
@@ -68,6 +97,7 @@ export const CreateProductPage: FC = () => {
       );
 
       const { data } = await response.json();
+      console.log(data);
       if (data?.validationErrors) {
         setErrors(transformValidationErrors(data.validationErrors));
       } else if (data.productId) {
@@ -79,18 +109,19 @@ export const CreateProductPage: FC = () => {
   };
   return (
     <Formik
-      validationSchema={ProductValidatorClient}
+      validationSchema={ProductValidator}
       initialValues={{
-        name: '',
+        name,
         files: [],
-        specifications: [],
-        brand: '',
+        specifications,
+        brand,
         //@ts-ignore
-        category: categories[0],
-        description: '',
-        price: 0,
-        inStock: 0,
+        category,
+        description,
+        price,
+        stock,
       }}
+      //@ts-ignore
       onSubmit={submitHandler}
     >
       {({ isSubmitting, setFieldValue, values, getFieldProps, errors }) => (
@@ -198,7 +229,7 @@ export const CreateProductPage: FC = () => {
             </div>
             <div className="flex items-center justify-between">
               <FormButton
-                content="Create New Product"
+                content="Edit Product"
                 isSubmitting={isSubmitting}
               />
               <button
@@ -215,4 +246,19 @@ export const CreateProductPage: FC = () => {
   );
 };
 
-export default CreateProductPage;
+export async function getServerSideProps(context: any) {
+  const { productId } = context.query;
+  console.log(productId);
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_SERVER_URL}/products/${productId}`,
+  );
+  const {
+    data: { product },
+  } = await response.json();
+  return {
+    props: {
+      ...product,
+    },
+  };
+}
+export default EditProduct;

@@ -13,6 +13,8 @@ const ProductSchema: Schema<ProductType> = new Schema<ProductType>(
     brand: { required: true, type: String },
     price: { required: true, type: Number },
     stock: { required: true, type: Number, default: 0 },
+    hasDeal: { required: false, type: Boolean, default: false },
+    dealPrice: { required: false, type: Number, default: 0 },
     images: [
       {
         type: String,

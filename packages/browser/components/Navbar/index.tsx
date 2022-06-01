@@ -56,68 +56,55 @@ const Navbar: FC = () => {
               >
                 <NavLink
                   fn={setActiveCategories}
-                  href="/products"
-                  text="Products"
+                  href="/products/?category=Laptops and Computers"
+                  text="Laptops and Computers"
                   styles={
                     'w-full   text-neutral-50 animate-fade hover:text-red-400'
                   }
                 />
                 <NavLink
                   fn={setActiveCategories}
-                  href="/deals"
-                  text="Deals"
+                  href="/products/?category=Peripherals"
+                  text="Peripherals"
                   styles={
                     'w-full text-neutral-50 animate-fade hover:text-red-400'
                   }
                 />
                 <NavLink
                   fn={setActiveCategories}
-                  href="/deals"
-                  text="About Us"
+                  href="/products/?category=Phones and Tablets"
+                  text="Phones and Tablets"
                   styles={
                     'w-full  text-neutral-50 animate-fade hover:text-red-400'
                   }
                 />
                 <NavLink
                   fn={setActiveCategories}
-                  href="/deals"
-                  text="Contacts"
+                  href="/products/?category=Audio"
+                  text="Audio"
                   styles={
                     'w-full text-neutral-50 animate-fade hover:text-red-400'
                   }
                 />
 
-                <>
-                  <NavLink
-                    fn={setActiveCategories}
-                    href="/deals"
-                    text="Login"
-                    styles={
-                      'w-full text-neutral-50 animate-fade hover:text-red-400'
-                    }
-                  />
-                  <NavLink
-                    fn={setActiveCategories}
-                    href="/deals"
-                    text="Sign Up"
-                    styles={
-                      'w-full text-neutral-50 animate-fade hover:text-red-400 '
-                    }
-                  />
-                </>
+                <NavLink
+                  fn={setActiveCategories}
+                  href="/products/?category=TV"
+                  text="TV"
+                  styles={
+                    'w-full text-neutral-50 animate-fade hover:text-red-400'
+                  }
+                />
               </ul>
             </div>
-            <NavLink href="/products" text="Products" />
-            <NavLink href="/deals" text="Deals" />
-            <NavLink href="/deals" text="About Us" />
             <NavLink href="/deals" text="Contacts" />
+            <Link href="/basket">
+              <a>
+                <Basket products={basket} />
+              </a>
+            </Link>
             {authState.token ? (
               <>
-                <Link href="/basket">
-                  <a>
-                    <Basket products={basket} />
-                  </a>
-                </Link>
                 <NavLink
                   // @ts-ignore
                   fn={() => dispatch(logout())}

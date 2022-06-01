@@ -5,47 +5,56 @@ import { useRouter } from 'next/router';
 import Input from 'components/Input';
 import postRequest from '@/utilities/postRequest';
 import transformValidationErrors from '@/utilities/transformValidationErrors';
+import ReviewValidator from '@eco/common/source/schemaValidators/ReviewValidator';
 // import { loginAction } from '@/actions/authActions';
 import FormWrapper from '@/components/FormWrapper';
 import FormButton from '@/components/FormButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar, faStarHalfStroke } from '@fortawesome/free-solid-svg-icons';
+import { faStar } from '@fortawesome/free-solid-svg-icons';
+import createFormData from '@/utilities/createFormData';
 interface FormValues {
-  review: string;
+  content: string;
   rating: 1 | 2 | 3 | 4 | 5;
 }
-export const ReviewForm: FC = () => {
+interface ReviewFormProps {
+  productId: string;
+}
+export const ReviewForm: FC<ReviewFormProps> = ({ productId }) => {
   const dispatch = useDispatch();
   const router = useRouter();
+  const authState = useSelector((state: any) => state.auth);
   const submitHandler = async (
     formValues: FormValues,
     { setErrors }: FormikHelpers<FormValues>,
   ): Promise<any> => {
     try {
-      // const { data } = await postRequest('reviews', formValues);
-      // if (data?.validationErrors) {
-      //   setErrors(transformValidationErrors(data.validationErrors));
-      // } else {
-      //   //@ts-ignore
-      //   // dispatch(
-      //   //   //@ts-ignore
-      //   //   setAction({
-      //   //     content: 'You have logged in!',
-      //   //     type: 'message',
-      //   //     isActive: true,
-      //   //   }),
-      //   // );
-      //   //@ts-ignore
-      //   dispatch(login(authState));
-      // }
+      console.log(formValues);
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/products/${productId}/review`,
+        {
+          method: 'POST',
+          body: JSON.stringify(formValues),
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${authState.token}`,
+          },
+        },
+      );
+      const { data } = await response.json();
+      console.log(data);
+      if (data?.validationErrors) {
+        setErrors(transformValidationErrors(data.validationErrors));
+      } else {
+      }
     } catch (error) {
       console.log(error);
     }
   };
   return (
     <Formik
+      validationSchema={ReviewValidator}
       initialValues={{
-        review: '',
+        content: '',
         rating: 1,
       }}
       onSubmit={submitHandler}
@@ -53,7 +62,11 @@ export const ReviewForm: FC = () => {
       {({ isSubmitting, setFieldValue, values }) => (
         <Form className="flex justify-center">
           <div className="p-24 w-full md:w-3/6 justify-center">
-            <Input name="review" type="input" placeholder="Review" />
+            <Input
+              name="content"
+              type="input"
+              placeholder="Place Your Review"
+            />
             <div className=" py-2 px-3">
               {Array.from(Array(5).keys()).map(number => (
                 <button

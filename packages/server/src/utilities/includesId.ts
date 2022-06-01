@@ -5,7 +5,7 @@ const includesId = (
   stringId: string,
 ): boolean =>
   arr.some((id: mongoose.Types.ObjectId): boolean =>
-    id.equals(mongoose.Types.ObjectId(stringId)),
+    id.equals(new mongoose.Types.ObjectId(stringId)),
   );
 
 export default includesId;

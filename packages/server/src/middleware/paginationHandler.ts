@@ -5,12 +5,14 @@ const paginationHandler = (
   _: Response,
   next: NextFunction,
 ): void => {
-  console.log(req.query);
+  console.log(req.query, 'Query');
   const category = req.query.category || 'Phones & tablets';
   const brand = req.query.brand || '';
   req.pagination = {
     //@ts-ignore
     limit: parseInt(req.query.limit, 10) || 25,
+    //@ts-ignore
+    hasDeal: req.query.hasDeal === 'true' ? true : false || false,
     //@ts-ignore
     category,
     //@ts-ignore
