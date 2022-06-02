@@ -12,17 +12,20 @@ import FormButton from '@/components/FormButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import createFormData from '@/utilities/createFormData';
+import Review from '@eco/common/source/types/Review';
 interface FormValues {
   content: string;
   rating: 1 | 2 | 3 | 4 | 5;
 }
 interface ReviewFormProps {
   productId: string;
+  setReview: (review: Review) => void;
 }
-export const ReviewForm: FC<ReviewFormProps> = ({ productId }) => {
+export const ReviewForm: FC<ReviewFormProps> = ({ productId, setReview }) => {
   const dispatch = useDispatch();
   const router = useRouter();
   const authState = useSelector((state: any) => state.auth);
+
   const submitHandler = async (
     formValues: FormValues,
     { setErrors }: FormikHelpers<FormValues>,
@@ -45,6 +48,7 @@ export const ReviewForm: FC<ReviewFormProps> = ({ productId }) => {
       if (data?.validationErrors) {
         setErrors(transformValidationErrors(data.validationErrors));
       } else {
+        setReview(data.review);
       }
     } catch (error) {
       console.log(error);
@@ -70,6 +74,7 @@ export const ReviewForm: FC<ReviewFormProps> = ({ productId }) => {
             <div className=" py-2 px-3">
               {Array.from(Array(5).keys()).map(number => (
                 <button
+                  type="button"
                   key={number}
                   onClick={() => setFieldValue('rating', number + 1)}
                 >

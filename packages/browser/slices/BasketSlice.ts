@@ -40,8 +40,15 @@ const basketSlice = createSlice({
       }
     },
     removeProduct: (state: BasketProduct[], action: PayloadAction<_id>) => {
-      console.log(action);
-      return [...state.filter(product => product._id !== action.payload)];
+      const product = state.find(product => product._id === action.payload);
+      if (product && product.quantity === 1) {
+        return [...state.filter(product => product._id !== action.payload)];
+      } else if (product) {
+        return [
+          ...state.filter(product => product._id !== action.payload),
+          { ...product, quantity: product.quantity - 1 },
+        ];
+      }
     },
   },
   extraReducers: builder => {

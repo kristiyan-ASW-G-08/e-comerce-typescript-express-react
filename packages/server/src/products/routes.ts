@@ -13,6 +13,7 @@ import {
   getProducts,
   getProductsByName,
   editProduct,
+  deleteProduct,
 } from './controllers';
 import SortStringValidator from '@eco/common/source/schemaValidators/SortStringValidator';
 import paginationHandler from '@src/middleware/paginationHandler';
@@ -52,4 +53,12 @@ router.get(
   paginationHandler,
   getProducts,
 );
+
+router.delete(
+  '/products/:productId',
+  authenticationHandler,
+  adminHandler,
+  deleteProduct,
+);
+
 export default router;

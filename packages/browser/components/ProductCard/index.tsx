@@ -5,6 +5,7 @@ import cloudinary from '../../cloudinary';
 import { AdvancedImage } from '@cloudinary/react';
 import { useDispatch } from 'react-redux';
 import { addProduct } from 'slices/BasketSlice';
+import ReviewStars from '../ReviewStars';
 const ProductCard: FC<Product> = ({
   name,
   _id,
@@ -14,6 +15,8 @@ const ProductCard: FC<Product> = ({
   brand,
   hasDeal,
   dealPrice,
+  rating,
+  numReviews,
 }) => {
   const dispatch = useDispatch();
   const image = cloudinary
@@ -32,6 +35,9 @@ const ProductCard: FC<Product> = ({
             <h4 className="font-bold text-xl mb-2">{name}</h4>
             <p className="font-bold text-sm text-neutral-400 mb-2">
               {stock > 0 ? 'Available' : ''}
+            </p>
+            <p>
+              <ReviewStars rating={rating} />({numReviews})
             </p>
           </div>
           <div className="flex items-center justify-center">

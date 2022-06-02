@@ -5,4 +5,5 @@ export default interface Review {
   user: string;
   product: string;
   _id: string;
+  createdAt: string;
 }

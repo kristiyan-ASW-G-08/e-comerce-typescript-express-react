@@ -188,3 +188,21 @@ export const getProductsByName = async (
     passErrorToNext(err, next);
   }
 };
+
+export const deleteProduct = async (
+  { params: { productId }, userId }: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
+  try {
+    const product = await getProductById(productId);
+
+    for (const image of product.images) {
+      await deleteCloudinaryFile(image);
+    }
+    await product.remove();
+    res.sendStatus(204);
+  } catch (err) {
+    passErrorToNext(err, next);
+  }
+};

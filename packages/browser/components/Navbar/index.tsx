@@ -113,6 +113,7 @@ const Navbar: FC = () => {
                   styles={
                     'text-neutral-50 bg-red-400 px-4 py-1 rounded hover:text-red-400 font-bold hover:bg-slate-700'
                   }
+                  activeStyles={'text-neutral-50'}
                 />
               </>
             ) : (

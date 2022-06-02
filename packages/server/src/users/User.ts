@@ -10,6 +10,7 @@ const UserSchema: Schema<UserType> = new Schema<UserType>(
     isConfirmed: { required: true, type: Boolean, default: true },
     productReviews: [
       {
+        required: true,
         type: Schema.Types.ObjectId,
         ref: 'Product',
       },

@@ -6,6 +6,7 @@ import BrandForm from '@/components/BrandForm';
 import { useRouter } from 'next/router';
 import brands from '@/utilities/brands';
 import Link from 'next/link';
+import PriceRangeForm from '@/components/PriceRangeForm';
 const ProductsPage: FC<{
   products: Product[];
   links: { prev: number; next: number };
@@ -59,6 +60,8 @@ const ProductsPage: FC<{
       <div className="flex-col md:flex-row flex px-32 py-10 space-x-12">
         <div className="space-y-5">
           <PriceForm priceRanges={priceRanges} setPrice={setPrice} />
+
+          <PriceRangeForm  setPrice={setPrice} />
           {/*
  // @ts-ignore */}
           <BrandForm brands={brands[query.category]} setBrand={setBrand} />
