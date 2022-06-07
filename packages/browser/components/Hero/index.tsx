@@ -2,7 +2,7 @@ import { FC } from 'react';
 import Carousel from '../Carousel';
 import HeroCard from '../HeroCard';
 import heroCard1Image from 'assets/galaxy-removebg-preview.png';
-import heroCard2Image from 'assets/neon_orange_1_2-removebg-preview.png';
+import heroCard2Image from 'assets/mikrofon-blue----yeti--blackout-30-removebg-preview.png';
 import heroCard3Image from 'assets/controller-removebg-preview.png';
 import Image from 'next/image';
 import mobileAndTablets from 'assets/mobiles-tablets.jpg';
@@ -19,22 +19,21 @@ const Hero: FC = () => (
         imageSrc={heroCard1Image}
         cardNum={'card1'}
         content={'Wireless Connection With TV, Computer, Laptop..'}
+        // href="/http://localhost:3000/products?category=Laptops%20and%20Computers&priceUpper=2000&priceLower=500&brand="
       />
       <HeroCard
-        heading="Browse Our Promotions"
+        heading="Browse Audio"
         imageSrc={heroCard2Image}
-        cardNum={'card2'}
-        content={'Wireless Connection With TV, Computer, Laptop..'}
+        cardNum={'card1'}
+        content={'Microphones'}
       />
       <HeroCard
-        heading="Browse Our Promotions"
+        heading="Browse Gaming"
         imageSrc={heroCard3Image}
         cardNum={'card3'}
-        content={'Wireless Connection With TV, Computer, Laptop..'}
+        content={'Controllers and Consoles'}
       />
     </div>
-
-   
   </section>
 );
 

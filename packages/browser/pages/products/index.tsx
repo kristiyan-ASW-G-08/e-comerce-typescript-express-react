@@ -61,7 +61,7 @@ const ProductsPage: FC<{
         <div className="space-y-5">
           <PriceForm priceRanges={priceRanges} setPrice={setPrice} />
 
-          <PriceRangeForm  setPrice={setPrice} />
+          <PriceRangeForm setPrice={setPrice} />
           {/*
  // @ts-ignore */}
           <BrandForm brands={brands[query.category]} setBrand={setBrand} />
@@ -124,8 +124,8 @@ export default ProductsPage;
 export async function getServerSideProps(context: any) {
   const { category, priceUpper, priceLower, brand, page, hasDeal } =
     context.query;
-  console.log(priceUpper, priceLower, page);
-  console.log(priceUpper, priceLower, brand);
+
+  console.log(category, hasDeal);
   const response = await fetch(
     `${
       process.env.NEXT_PUBLIC_SERVER_URL

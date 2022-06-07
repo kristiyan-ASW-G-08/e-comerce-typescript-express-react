@@ -50,6 +50,9 @@ const basketSlice = createSlice({
         ];
       }
     },
+    resetBasket: (state: BasketProduct[], action: PayloadAction) => {
+      return initialState;
+    },
   },
   extraReducers: builder => {
     builder.addCase(PURGE, state => {
@@ -58,5 +61,5 @@ const basketSlice = createSlice({
   },
 });
 
-export const { addProduct, removeProduct } = basketSlice.actions;
+export const { addProduct, removeProduct, resetBasket } = basketSlice.actions;
 export default basketSlice.reducer;

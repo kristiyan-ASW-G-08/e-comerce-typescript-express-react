@@ -10,5 +10,8 @@ declare namespace NodeJS {
     CLOUD_NAME: string;
     CLOUDINARY_API_KEY: string;
     API_SECRET: string;
+    PAYPAL_SANDBOX_ACCOUNT: string;
+    PAYPAL_CLIENTID: string;
+    PAYPAL_SECRET: string;
   }
 }

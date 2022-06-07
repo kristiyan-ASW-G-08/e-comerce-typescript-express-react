@@ -1,6 +1,7 @@
 import { removeAction } from '@/actions/notificationActions';
 import { FC, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { removeNotification } from 'slices/NotificationSlice';
 
 interface NotificationProps {
   content: string;
@@ -15,7 +16,7 @@ const Notification: FC<NotificationProps> = ({ content, type }) => {
   useEffect(() => {
     setTimeout(() => {
       //@ts-ignore
-      dispatch(removeAction());
+      dispatch(removeNotification());
       console.log('Timer');
     }, 5000);
   }, []);

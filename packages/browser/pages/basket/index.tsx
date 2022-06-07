@@ -8,10 +8,12 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import ProductBasketCard from '@/components/ProductBasketCard';
 import Link from 'next/link';
+import { AuthState } from 'slices/AuthSlice';
 const Basket: FC = () => {
   const basket = useSelector(
     (state: { basket: BasketProduct[] }) => state.basket,
   );
+  const auth = useSelector((state: { auth: AuthState }) => state.auth);
 
   return (
     <section className="flex flex-col md:flex-row justify-between p-10">
@@ -29,7 +31,7 @@ const Basket: FC = () => {
             )}
           </p>
           {basket.length > 0 ? (
-            <Link href="/checkout">
+            <Link href={auth.token ? '/checkout' : '/login'}>
               <a className="block bg-blue-400 p-2 px-10 text-neutral-50">
                 Proceed to Checkout
               </a>

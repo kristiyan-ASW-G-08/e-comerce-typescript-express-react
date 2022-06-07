@@ -29,4 +29,7 @@ const ProductSchema: Schema<ProductType> = new Schema<ProductType>(
 
 ProductSchema.index({ name: 'text' });
 
-export default mongoose.model<ProductType>('Product', ProductSchema);
+export default mongoose.model<ProductType>(
+  'Product',
+  ProductSchema,
+);

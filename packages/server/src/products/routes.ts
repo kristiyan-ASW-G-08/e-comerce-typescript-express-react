@@ -22,7 +22,7 @@ const multerStorage = multer({ storage, fileFilter }).array('files');
 
 const router = express.Router();
 
-router.post(
+router.patch(
   '/products/:productId',
   authenticationHandler,
   adminHandler,

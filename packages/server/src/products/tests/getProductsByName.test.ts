@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import request from 'supertest';
 import jwt from 'jsonwebtoken';
 import mockFs from 'mock-fs';
-import app from '../../../src/app';
+import app from '../../app';
 import User from '@users/User';
 import connectToDB from '@utilities/connectToDB';
 import Product from '@products/Product';
@@ -53,10 +53,10 @@ describe('product routes', () => {
     await mongoose.disconnect();
   });
 
-  describe('get /product/:productId', () => {
+  describe('get /products', () => {
     afterEach(jest.clearAllMocks);
 
-    it('should get a product', async () => {
+    it('should return products by name', async () => {
       expect.assertions(1);
       const product = await new Product({
         name: 'ProductName',
@@ -73,16 +73,8 @@ describe('product routes', () => {
           { name, description },
         ],
       }).save();
-      const productId = product._id.toString();
-      const response = await request(app).get(`/products/${productId}`);
+      const response = await request(app).get(`/products/names/ProductName`);
       expect(response.status).toBe(200);
-    });
-
-    it('should get a product', async () => {
-      expect.assertions(1);
-      const productId = new mongoose.Types.ObjectId();
-      const response = await request(app).get(`/products/${productId}`);
-      expect(response.status).toBe(404);
     });
   });
 });

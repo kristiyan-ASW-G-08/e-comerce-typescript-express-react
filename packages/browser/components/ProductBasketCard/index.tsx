@@ -17,8 +17,8 @@ const ProductBasketCard: FC<BasketProduct> = ({
   const dispatch = useDispatch();
   const cloudinaryImage = cloudinary.image(image).setVersion('1650962083');
   return (
-    <article className="flex justify-center">
-      <div className="flex flex-col md:flex-row md:max-w-xl rounded-lg bg-white shadow-lg">
+    <article className="flex  w-full ">
+      <div className="flex flex-col md:flex-row md:max-w-xl rounded-lg bg-white shadow-lg  w-full">
         <AdvancedImage
           className=" h-24 w-24 object-contain"
           cldImg={cloudinaryImage}

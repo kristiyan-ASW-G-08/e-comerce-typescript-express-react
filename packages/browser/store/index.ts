@@ -13,13 +13,17 @@ import {
 } from 'redux-persist';
 // import { authReducer } from '../reducers/AuthReducers';
 import authReducer from '../slices/AuthSlice';
+import checkoutReducer from '../slices/CheckoutSlice';
 import basketReducer from '../slices/BasketSlice';
-import { notificationReducer } from '../reducers/NotificationReducers';
+import paymentReducer from '../slices/PaymentMethodSlice';
+import notificationReducer from '../slices/NotificationSlice';
 
 const reducer = combineReducers({
   auth: authReducer,
   notification: notificationReducer,
   basket: basketReducer,
+  checkout: checkoutReducer,
+  payment: paymentReducer,
 });
 
 const persistConfig = {

@@ -4,6 +4,7 @@ import image1 from 'assets/headphone-blue.png';
 import styles from './index.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDotCircle, faCircle } from '@fortawesome/free-solid-svg-icons';
+import Link from 'next/link';
 
 interface CarouselSlideProps {
   heading: string;
@@ -12,7 +13,8 @@ interface CarouselSlideProps {
   setCurrentSlide: Dispatch<SetStateAction<number>>;
   currentSlide: number;
   imageSrc: any;
-  color: 'green' | 'red' | 'blue';
+  color: 'green' | 'red' | 'blue' | 'grey';
+  href: string;
 }
 const CarouselSlide: FC<CarouselSlideProps> = ({
   heading,
@@ -22,6 +24,7 @@ const CarouselSlide: FC<CarouselSlideProps> = ({
   currentSlide,
   imageSrc,
   color,
+  href,
 }) => {
   const hoverClasses = {
     red: 'hover:bg-red-700',
@@ -41,11 +44,15 @@ const CarouselSlide: FC<CarouselSlideProps> = ({
           <p className="pb-10 font-bold md:text-lg text-neutral-50">
             {content}
           </p>
-          <button
-            className={`text-sm rounded-full border-2 py-2 px-7 text-neutral-50 font-bold ${hoverClasses[color]}`}
-          >
-            {buttonText}
-          </button>
+          <Link href={href}>
+            <a>
+              <button
+                className={`text-sm rounded-full border-2 py-2 px-7 text-neutral-50 font-bold ${hoverClasses[color]}`}
+              >
+                {buttonText}
+              </button>
+            </a>
+          </Link>
         </div>
         <div className="md:h-72 md:w-72 h-48 w-48 relative m-auto">
           {' '}

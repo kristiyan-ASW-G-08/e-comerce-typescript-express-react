@@ -8,7 +8,8 @@
       "@utilities/*": ["src/utilities/*"],
       "@customMiddleware/*": ["src/middleware/*"],
       "@users/*": ["src/users/*"],
-      "@products/*": ["src/products/*"]
+      "@products/*": ["src/products/*"],
+      "@orders/*": ["src/orders/*"]
     },
     "target": "es6",
     "lib": ["esnext"],
